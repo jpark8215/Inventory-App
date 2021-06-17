@@ -5,40 +5,49 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainScreenController implements Initializable {
-    @FXML
-    private TableView<?> animalTableView;
+public class MainScreenController implements Initializable{
 
     @FXML
-    private TableColumn<?, ?> partIdCol;
+    private TextField partSearchText;
 
     @FXML
-    private TableColumn<?, ?> partNameCol;
+    private TableView<?> partTableView;
 
     @FXML
-    private TableColumn<?, ?> inventoryLevelCol;
+    private TableColumn<?, ?> partIdColumn;
 
     @FXML
-    private TableColumn<?, ?> priceCol;
+    private TableColumn<?, ?> partNameColumn;
 
     @FXML
-    private TableView<?> animalTableView1;
+    private TableColumn<?, ?> partInventoryColumn;
 
     @FXML
-    private TableColumn<?, ?> partIdCol1;
+    private TableColumn<?, ?> partPriceColumn;
 
     @FXML
-    private TableColumn<?, ?> partNameCol1;
+    private TextField productSearchText;
 
     @FXML
-    private TableColumn<?, ?> inventoryLevelCol1;
+    private TableView<?> productTableView;
 
     @FXML
-    private TableColumn<?, ?> priceCol1;
+    private TableColumn<?, ?> productIdColumn;
+
+    @FXML
+    private TableColumn<?, ?> productNameColumn;
+
+    @FXML
+    private TableColumn<?, ?> productInventoryColumn;
+
+    @FXML
+    private TableColumn<?, ?> productPriceColumn;
 
     @FXML
     void onActionAddParts(ActionEvent event) {
@@ -61,6 +70,11 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
+    void onActionExit(ActionEvent event) {
+
+    }
+
+    @FXML
     void onActionModifyParts(ActionEvent event) {
 
     }
@@ -69,6 +83,29 @@ public class MainScreenController implements Initializable {
     void onActionModifyProducts(ActionEvent event) {
 
     }
+
+    @FXML
+    void onActionSearchParts(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionSearchProducts(ActionEvent event) {
+
+    }
+
+    @FXML
+    void partSearchTextKeyPressed(KeyEvent event) {
+
+    }
+
+    @FXML
+    void productSearchTextKeyPressed(KeyEvent event) {
+
+    }
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
