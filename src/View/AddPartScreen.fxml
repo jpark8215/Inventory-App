@@ -23,11 +23,11 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <RadioButton fx:id="inHouseRadioButton" layoutX="231.0" layoutY="150.0" mnemonicParsing="false" onAction="#onActionInhouseRadio" text="In-House">
+        <RadioButton fx:id="inHouseRadioButton" layoutX="215.0" layoutY="150.0" mnemonicParsing="false" onAction="#onActionInhouseRadio" text="In-House">
          <toggleGroup>
             <ToggleGroup fx:id="partTypeTG" />
          </toggleGroup></RadioButton>
-        <RadioButton fx:id="outsourcedRadioButton" layoutX="374.0" layoutY="150.0" mnemonicParsing="false" onAction="#onActionOutsourcedRadio" text="Outsourced" toggleGroup="$partTypeTG" />
+        <RadioButton fx:id="outsourcedRadioButton" layoutX="334.0" layoutY="150.0" mnemonicParsing="false" onAction="#onActionOutsourcedRadio" text="Outsourced" toggleGroup="$partTypeTG" />
       <VBox layoutX="215.0" layoutY="201.0" prefHeight="300.0" prefWidth="201.0" spacing="26.0">
          <children>
               <TextField fx:id="partIdText" editable="false" promptText="Auto Gen - Disabled">

@@ -122,37 +122,37 @@ public class ModifyProductScreenController implements Initializable {
     /**
      * A list of parts associated with the product.
      */
-    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private ObservableList<Part> associatedPart = FXCollections.observableArrayList();
 
     /**
      * The associated parts table view.
      */
     @FXML
-    private TableView<Part> assocPartTableView;
+    private TableView<Part> associatedPartTableView;
 
     /**
      * The part ID column for the associated parts table.
      */
     @FXML
-    private TableColumn<Part, Integer> assocPartIdColumn;
+    private TableColumn<Part, Integer> associatedPartIdColumn;
 
     /**
      * The part name column for the associated parts table.
      */
     @FXML
-    private TableColumn<Part, String> assocPartNameColumn;
+    private TableColumn<Part, String> associatedPartNameColumn;
 
     /**
      * The inventory level column for the associated parts table.
      */
     @FXML
-    private TableColumn<Part, Integer> assocPartInventoryColumn;
+    private TableColumn<Part, Integer> associatedPartInventoryColumn;
 
     /**
      * The part price column for the associated parts table.
      */
     @FXML
-    private TableColumn<Part, Double> assocPartPriceColumn;
+    private TableColumn<Part, Double> associatedPartPriceColumn;
 
     /**
      * The all parts table view.
@@ -241,8 +241,8 @@ public class ModifyProductScreenController implements Initializable {
         if (selectedPart == null) {
             displayAlert(5);
         } else {
-            associatedParts.add(selectedPart);
-            assocPartTableView.setItems(associatedParts);
+            associatedPart.add(selectedPart);
+            associatedPartTableView.setItems(associatedPart);
         }
     }
 
@@ -275,7 +275,7 @@ public class ModifyProductScreenController implements Initializable {
     @FXML
     void removeButtonAction(ActionEvent event) {
 
-        Part selectedPart = assocPartTableView.getSelectionModel().getSelectedItem();
+        Part selectedPart = associatedPartTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
             displayAlert(5);
@@ -287,8 +287,8 @@ public class ModifyProductScreenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                associatedParts.remove(selectedPart);
-                assocPartTableView.setItems(associatedParts);
+                associatedPart.remove(selectedPart);
+                associatedPartTableView.setItems(associatedPart);
             }
         }
     }
@@ -320,7 +320,7 @@ public class ModifyProductScreenController implements Initializable {
 
                     Product newProduct = new Product(id, name, price, stock, min, max);
 
-                    for (Part part : associatedParts) {
+                    for (Part part : associatedPart) {
                         newProduct.addAssociatedPart(part);
                     }
 
@@ -488,7 +488,7 @@ public class ModifyProductScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         selectedProduct = MainScreenController.getProductToModify();
-        associatedParts = selectedProduct.getAllAssociatedParts();
+        associatedPart = selectedProduct.getAllAssociatedParts();
 
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -496,11 +496,11 @@ public class ModifyProductScreenController implements Initializable {
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partTableView.setItems(Inventory.getAllParts());
 
-        assocPartIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        assocPartNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        assocPartInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        assocPartPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        assocPartTableView.setItems(associatedParts);
+        associatedPartIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        associatedPartNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        associatedPartInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        associatedPartPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        associatedPartTableView.setItems(associatedPart);
 
         productIdText.setText(String.valueOf(selectedProduct.getId()));
         productNameText.setText(selectedProduct.getName());

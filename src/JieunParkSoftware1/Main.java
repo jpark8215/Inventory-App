@@ -25,30 +25,25 @@ public class Main extends Application {
 
         //Adds sample parts
         //int partId = Inventory.getNewPartId();
-        InhousePart tvScreen = new InhousePart(1,"TV Screen", 300.00, 5, 1, 20);
+        InhousePart breaks = new InhousePart(1,"Breaks", 15.00, 10, 1, 20,0);
 
         //partId = Inventory.getNewPartId();
-        InhousePart tvShell = new InhousePart(2,"TV Shell", 100.00, 5, 1, 20);
+        InhousePart wheel = new InhousePart(2,"Wheel", 11.00, 16, 1, 20,0);
 
         //partId = Inventory.getNewPartId();
-        InhousePart powerCord = new InhousePart(3,"Power Cord", 2.99, 5, 1, 20);
+        InhousePart seat = new InhousePart(3,"Seat", 15.00, 10, 1, 20,0);
 
-        //partId = Inventory.getNewPartId();
-        OutsourcedPart remote = new OutsourcedPart(5, "Remote Control",29.99, 50, 30, 100, "Panasonic");
-
-        Inventory.addPart(tvScreen);
-        Inventory.addPart(tvShell);
-        Inventory.addPart(powerCord);
-        Inventory.addPart(remote);
+        Inventory.addPart(breaks);
+        Inventory.addPart(wheel);
+        Inventory.addPart(seat);
 
         //Add sample products
         //int productId = Inventory.getNewProductId();
-        Product television = new Product(1001, "LCD Television", 499.99, 20, 20, 100);
-        television.addAssociatedPart(tvScreen);
-        television.addAssociatedPart(tvShell);
-        television.addAssociatedPart(powerCord);
-        television.addAssociatedPart(remote);
-        Inventory.addProduct(television);
+        Product giantBike = new Product(1000, "Giant Bike",299.99, 5, 1, 100);
+        Product tricycle = new Product(1001, "Tricycle",99.99, 3, 1, 100);
+
+        Inventory.addProduct(giantBike);
+        Inventory.addProduct(tricycle);
 
         launch(args);
     }
