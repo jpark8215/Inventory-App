@@ -12,23 +12,18 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddPartScreenController">
     <children>
-        <Label layoutX="59.0" layoutY="85.0" style="-fx-font-weight: bold;" text="Inventory Management System">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
         <Button layoutX="672.0" layoutY="535.0" mnemonicParsing="false" onAction="#onActionCancelAddParts" text="Cancel" />
-        <Label layoutX="97.0" layoutY="150.0" style="-fx-font-weight: bold;" text="Add Part">
+        <Label layoutX="96.0" layoutY="125.0" style="-fx-font-weight: bold;" text="Add Part">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <RadioButton fx:id="inHouseRadioButton" layoutX="215.0" layoutY="150.0" mnemonicParsing="false" onAction="#onActionInhouseRadio" text="In-House">
+        <RadioButton fx:id="inHouseRadioButton" layoutX="215.0" layoutY="129.0" mnemonicParsing="false" onAction="#onActionInhouseRadio" text="In-House">
          <toggleGroup>
             <ToggleGroup fx:id="partTypeTG" />
          </toggleGroup></RadioButton>
-        <RadioButton fx:id="outsourcedRadioButton" layoutX="334.0" layoutY="150.0" mnemonicParsing="false" onAction="#onActionOutsourcedRadio" text="Outsourced" toggleGroup="$partTypeTG" />
-      <VBox layoutX="215.0" layoutY="201.0" prefHeight="300.0" prefWidth="201.0" spacing="26.0">
+        <RadioButton fx:id="outsourcedRadioButton" layoutX="332.0" layoutY="129.0" mnemonicParsing="false" onAction="#onActionOutsourcedRadio" text="Outsourced" toggleGroup="$partTypeTG" />
+      <VBox layoutX="215.0" layoutY="201.0" prefHeight="300.0" prefWidth="200.0" spacing="26.0">
          <children>
               <TextField fx:id="partIdText" editable="false" promptText="Auto Gen - Disabled">
                <font>
@@ -42,10 +37,10 @@
               <TextField fx:id="partIdNameText" />
          </children>
       </VBox>
-        <TextField fx:id="partMinText" layoutX="523.0" layoutY="407.0" prefHeight="25.0" prefWidth="201.0" />
+        <TextField fx:id="partMinText" layoutX="523.0" layoutY="407.0" prefHeight="25.0" prefWidth="200.0" />
         <Label layoutX="464.0" layoutY="411.0" text="Min" />
         <Button layoutX="603.0" layoutY="535.0" mnemonicParsing="false" onAction="#onActionSaveAddParts" text="Save" />
-      <VBox layoutX="102.0" layoutY="201.0" prefHeight="300.0" prefWidth="83.0" spacing="35.0">
+      <VBox layoutX="102.0" layoutY="201.0" prefHeight="300.0" prefWidth="85.0" spacing="35.0">
          <children>
               <Label text="ID" />
               <Label text="Name" />
