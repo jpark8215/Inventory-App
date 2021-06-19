@@ -18,52 +18,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddPartScreenController implements Initializable {
-
-
-
-    private void returnToMainScreen(ActionEvent event) throws IOException {
-        /**Loads MainScreenController.
-         * @param event Passed from parent method.
-         * @throws java.io.IOException From FXMLLoader.*/
-        Parent parent = FXMLLoader.load(getClass().getResource("../view/MainScreen.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-
-
-    private boolean minValid(int min, int max) {
-        /** Validates that min is greater than 0 and less than max.
-         * @param min The minimum value for the part.
-         * @param max The maximum value for the part.
-         * @return Boolean indicating if min is valid.*/
-        boolean isValid = true;
-
-        if (min <= 0 || min >= max) {
-            isValid = false;
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid number. Minimum cannot be larger than maximum value.");
-        }
-
-        return isValid;
-    }
-
-
-    private boolean inventoryValid(int min, int max, int stock) {
-        /** Validates that inventory level is equal too or between min and max.
-         * @param min   The minimum value for the part.
-         * @param max   The maximum value for the part.
-         * @param stock The inventory level for the part.
-         * @return Boolean indicating if inventory is valid.*/
-        boolean isValid = true;
-
-        if (stock < min || stock > max) {
-            isValid = false;
-            Alert alert = new Alert(Alert.AlertType.WARNING, "The inventory is less than minimum or larger than maximum value.");
-        }
-
-        return isValid;
-    }
+    Stage stage;
+    Parent scene;
 
     /** Inhouse radio button.*/
     @FXML
@@ -116,8 +72,8 @@ public class AddPartScreenController implements Initializable {
          * @throws IOException From FXMLLoader.*/
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Alert");
-        alert.setContentText("Do you want cancel changes and return to the main screen?");
+        alert.setTitle("CONFIRMATION");
+        alert.setContentText("Changes will not be saved. Do you want to return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -150,7 +106,7 @@ public class AddPartScreenController implements Initializable {
         try {
             int id = 0;
             String name = partNameText.getText();
-            Double price = Double.parseDouble(partPriceText.getText());
+            double price = Double.parseDouble(partPriceText.getText());
             int stock = Integer.parseInt(partInventoryText.getText());
             int min = Integer.parseInt(partMinText.getText());
             int max = Integer.parseInt(partMaxText.getText());
@@ -159,8 +115,13 @@ public class AddPartScreenController implements Initializable {
             boolean partAdded = false;
 
             if (name.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Part Name is empty. Please enter a valid entry.");
-            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Part Name is empty. Please enter a valid entry.");
+                alert.showAndWait();
+            }
+
+            else {
                 if (minValid(min, max) && inventoryValid(min, max, stock)) {
 
                     if (inhouseRadioButton.isSelected()) {
@@ -170,8 +131,13 @@ public class AddPartScreenController implements Initializable {
                             newInhousePart.setId(Inventory.getNewPartId());
                             Inventory.addPart(newInhousePart);
                             partAdded = true;
-                        } catch (Exception e) {
-                            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter valid machine ID number.");
+
+                        }
+                        catch (Exception e) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("ERROR");
+                            alert.setContentText("Please enter valid machine ID number.");
+                            alert.showAndWait();
                         }
                     }
                     if (outsourcedRadioButton.isSelected()) {
@@ -188,15 +154,63 @@ public class AddPartScreenController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid value or Empty field. Please enter valid data.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Invalid value or Empty field. Please enter valid data.");
+            alert.showAndWait();
         }
     }
 
-    @Override
+    private void returnToMainScreen(ActionEvent event) throws IOException {
+        /**Loads MainScreenController.
+         * @param event Passed from parent method.
+         * @throws java.io.IOException From FXMLLoader.*/
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+
+    private boolean minValid(int min, int max) {
+        /** Validates that min is greater than 0 and less than max.
+         * @param min The minimum value for the part.
+         * @param max The maximum value for the part.
+         * @return Boolean indicating if min is valid.*/
+
+        boolean isValid = true;
+        if (min <= 0 || min >= max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Invalid number. Minimum cannot be larger than maximum value.");
+            alert.showAndWait();
+        }
+        return isValid;
+    }
+
+
+    private boolean inventoryValid(int min, int max, int stock) {
+        /** Validates that inventory level is equal too or between min and max.
+         * @param min   The minimum value for the part.
+         * @param max   The maximum value for the part.
+         * @param stock The inventory level for the part.
+         * @return Boolean indicating if inventory is valid.*/
+
+        boolean isValid = true;
+        if (stock < min || stock > max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("WARNING");
+            alert.setContentText("The inventory is less than minimum or larger than maximum value.");
+            alert.showAndWait();
+        }
+        return isValid;
+    }
+
+
+        @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /** Initializes controller and sets in-house radio button to true.
-         * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
-         * @param resources The resources used to localize the root object, or null if the root object was not localized.*/
-        inhouseRadioButton.setSelected(true);
+
     }
 }

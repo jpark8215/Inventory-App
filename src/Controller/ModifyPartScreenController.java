@@ -15,25 +15,26 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 
 public class ModifyPartScreenController implements Initializable {
+    Stage stage;
+    Parent scene;
 
     /** The part object selected in the MainScreenController.*/
     private Part selectedPart;
-
 
 
     private void returnToMainScreen(ActionEvent event) throws IOException {
         /** Loads MainScreenController.
          * @param event Passed from parent method.
          * @throws IOException From FXMLLoader.*/
-        Parent parent = FXMLLoader.load(getClass().getResource("../view/MainScreen.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
+        stage.setScene(new Scene(scene));
         stage.show();
     }
 
@@ -121,8 +122,8 @@ public class ModifyPartScreenController implements Initializable {
  * @throws IOException From FXMLLoader.*/
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Alert");
-        alert.setContentText("Do you want cancel changes and return to the main screen?");
+        alert.setTitle("CONFIRMATION");
+        alert.setContentText("Changes will not be saved. Do you want to return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -157,7 +158,7 @@ public class ModifyPartScreenController implements Initializable {
         try {
             int id = selectedPart.getId();
             String name = partNameText.getText();
-            Double price = Double.parseDouble(partPriceText.getText());
+            double price = Double.parseDouble(partPriceText.getText());
             int stock = Integer.parseInt(partInventoryText.getText());
             int min = Integer.parseInt(partMinText.getText());
             int max = Integer.parseInt(partMaxText.getText());
@@ -175,7 +176,10 @@ public class ModifyPartScreenController implements Initializable {
                         partAdded = true;
                     }
                     catch (Exception e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter valid machine ID number.");
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("ERROR");
+                        alert.setContentText("Please enter valid machine ID number.");
+                        Optional<ButtonType> result = alert.showAndWait();
                     }
                 }
 
@@ -194,7 +198,10 @@ public class ModifyPartScreenController implements Initializable {
             }
         }
         catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid value or Empty field. Please enter valid data.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Invalid value or Empty field. Please enter valid data.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
     }
 

@@ -22,53 +22,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddProductScreenController implements Initializable {
-
-    /** A list containing parts associated with the product.*/
-    private final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
-
-
-    private void returnToMainScreen(ActionEvent event) throws IOException {
-/** Loads MainScreenController.
- * @param event Passed from parent method.
- * @throws IOException From FXMLLoader.*/
-        Parent parent = FXMLLoader.load(getClass().getResource("../view/MainScreen.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-
-
-    private boolean minValid(int min, int max) {
-        /** Validates that min is greater than 0 and less than max.
-         * @param min The minimum value for the part.
-         * @param max The maximum value for the part.
-         * @return Boolean indicating if min is valid.*/
-        boolean isValid = true;
-
-        if (min <= 0 || min >= max) {
-            isValid = false;
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid number. Minimum cannot be larger than maximum value.");
-        }
-        return isValid;
-    }
-
-
-    private boolean inventoryValid(int min, int max, int stock) {
-        /** Validates that inventory level is equal too or between min and max.
-         * @param min   The minimum value for the part.
-         * @param max   The maximum value for the part.
-         * @param stock The inventory level for the part.
-         * @return Boolean indicating if inventory is valid.*/
-        boolean isValid = true;
-
-        if (stock < min || stock > max) {
-            isValid = false;
-            Alert alert = new Alert(Alert.AlertType.WARNING, "The inventory is less than minimum or larger than maximum value.");
-        }
-        return isValid;
-    }
-
+    Stage stage;
+    Parent scene;
 
 
     @FXML
@@ -132,8 +87,12 @@ public class AddProductScreenController implements Initializable {
         Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Part is not selected.");
-        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Please select a part.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+        else {
             associatedPart.add(selectedPart);
             associatedPartTableView.setItems(associatedPart);
         }
@@ -147,8 +106,8 @@ public class AddProductScreenController implements Initializable {
          * @throws IOException From FXMLLoader.*/
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Alert");
-        alert.setContentText("Do you want cancel changes and return to the main screen?");
+        alert.setTitle("CONFIRMATION");
+        alert.setContentText("Changes will not be saved. Do you want to return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -166,12 +125,14 @@ public class AddProductScreenController implements Initializable {
         Part selectedPart = associatedPartTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Parts not selected.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Please select a part.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
         else {
-
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Alert");
+            alert.setTitle("CONFIRMATION");
             alert.setContentText("Do you want to remove the selected part?");
             Optional<ButtonType> result = alert.showAndWait();
 
@@ -193,13 +154,16 @@ public class AddProductScreenController implements Initializable {
         try {
             int id = 0;
             String name = productNameText.getText();
-            Double price = Double.parseDouble(productPriceText.getText());
+            double price = Double.parseDouble(productPriceText.getText());
             int stock = Integer.parseInt(productInventoryText.getText());
             int min = Integer.parseInt(productMinText.getText());
             int max = Integer.parseInt(productMaxText.getText());
 
             if (name.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter valid name.");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Please enter valid name.");
+                Optional<ButtonType> result = alert.showAndWait();
             }
 
             else {
@@ -219,7 +183,10 @@ public class AddProductScreenController implements Initializable {
         }
 
         catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid value or Empty field. Please enter valid data.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Invalid value or Empty field. Please enter valid data.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
     }
 
@@ -231,20 +198,22 @@ public class AddProductScreenController implements Initializable {
          * @param event Part search button action.*/
 
         ObservableList<Part> allParts = Inventory.getAllParts();
-        ObservableList<Part> partsFound = FXCollections.observableArrayList();
+        ObservableList<Part> partFound = FXCollections.observableArrayList();
         String searchString = partSearchText.getText();
 
         for (Part part : allParts) {
-            if (String.valueOf(part.getId()).contains(searchString) ||
-                    part.getName().contains(searchString)) {
-                partsFound.add(part);
+            if (String.valueOf(part.getId()).contains(searchString) || part.getName().contains(searchString)) {
+                partFound.add(part);
             }
         }
 
-        partTableView.setItems(partsFound);
+        partTableView.setItems(partFound);
 
-        if (partsFound.size() == 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Parts not found.");
+        if (partFound.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Part not found.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
     }
 
@@ -256,6 +225,58 @@ public class AddProductScreenController implements Initializable {
         if (partSearchText.getText().isEmpty()) {
             partTableView.setItems(Inventory.getAllParts());
         }
+    }
+
+
+    /** A list containing parts associated with the product.*/
+    private final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
+
+
+    private void returnToMainScreen(ActionEvent event) throws IOException {
+/** Loads MainScreenController.
+ * @param event Passed from parent method.
+ * @throws IOException From FXMLLoader.*/
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+
+    private boolean minValid(int min, int max) {
+        /** Validates that min is greater than 0 and less than max.
+         * @param min The minimum value for the part.
+         * @param max The maximum value for the part.
+         * @return Boolean indicating if min is valid.*/
+        boolean isValid = true;
+
+        if (min <= 0 || min >= max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Invalid number. Minimum cannot be larger than maximum value.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+        return isValid;
+    }
+
+
+    private boolean inventoryValid(int min, int max, int stock) {
+        /** Validates that inventory level is equal too or between min and max.
+         * @param min   The minimum value for the part.
+         * @param max   The maximum value for the part.
+         * @param stock The inventory level for the part.
+         * @return Boolean indicating if inventory is valid.*/
+        boolean isValid = true;
+
+        if (stock < min || stock > max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("The inventory is less than minimum or larger than maximum value.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+        return isValid;
     }
 
 

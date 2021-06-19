@@ -2,7 +2,6 @@ package JieunParkSoftware1;
 
 import Model.InhousePart;
 import Model.Inventory;
-import Model.OutsourcedPart;
 import Model.Product;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
         primaryStage.setTitle("Inventory Management System");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

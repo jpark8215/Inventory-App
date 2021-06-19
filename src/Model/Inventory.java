@@ -3,14 +3,14 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Inventory{
+/**Class Inventory.java*/
+/** @author Jieun Par*/
 
-    /** Part ID.*/
-    private static final int partId = 0;
+public class Inventory {
 
     /** A list of all parts in the inventory.*/
+    private static final int partId = 0;
     private static final ObservableList<Part> allParts = FXCollections.observableArrayList();
-
     /** Gets a list of all parts in inventory.
      * @return A list of part objects.*/
     public static ObservableList<Part> getAllParts() {
@@ -18,13 +18,9 @@ public class Inventory{
     }
 
 
-
-    /** Product ID.*/
-    private static final int productId = 0;
-
     /** A list of all products in the inventory.*/
+    private static final int productId = 0;
     private static final ObservableList<Product> allProducts = FXCollections.observableArrayList();
-
     /** Gets a list of all products in inventory.
      * @return A list of product objects.*/
     public static ObservableList<Product> getAllProducts() {
@@ -32,13 +28,9 @@ public class Inventory{
     }
 
 
-
-    /** Creates a new part ID.
-     * @return A unique part ID.*/
-    public static int getNewPartId() {
-        return partId;
-    }
-
+    /** Get a new part ID.
+      * @return A unique part ID.*/
+    public static int getNewPartId() {return partId;}
     /** Adds a part to the inventory.
      * @param newPart The part object to add.*/
     public static void addPart(Part newPart) {
@@ -47,12 +39,9 @@ public class Inventory{
 
 
 
-    /** Creates a new product ID.
-     * @return A unique product ID.*/
-    public static int getNewProductId() {
-        return productId;
-    }
-
+    /** Get a new product ID.
+    * @return A unique product ID.*/
+    public static int getNewProductId() {return productId;}
     /** Adds a product to the inventory.
      * @param newProduct The product object to add.*/
     public static void addProduct(Product newProduct) {
@@ -60,11 +49,10 @@ public class Inventory{
     }
 
 
-
-    /** Searches the list of parts by ID.
+    /** Look up the list of parts by ID.
      * @param partId The part ID.
      * @return The part object if found, null if not found.*/
-    public static Part lookupPart(int partId) {
+    public Part lookupPart(int partId) {
         Part partFound = null;
 
         for (Part part : allParts) {
@@ -72,31 +60,13 @@ public class Inventory{
                 partFound = part;
             }
         }
-
         return partFound;
     }
 
-    /**Searches the list of parts by name.
-     * @param partName The part name.
-     * @return A list of parts found.*/
-    public static ObservableList<Part> lookupPart(String partName) {
-        ObservableList<Part> partsFound = FXCollections.observableArrayList();
-
-        for (Part part : allParts) {
-            if (part.getName().equals(partName)) {
-                partsFound.add(part);
-            }
-        }
-
-        return partsFound;
-    }
-
-
-
-    /** Searches the list of products by ID.
+    /** Look up the list of products by ID.
      * @param productId The product ID.
      * @return The product object if found, null if not found.*/
-    public static Product lookupProduct(int productId) {
+    public Product lookupProduct(int productId) {
         Product productFound = null;
 
         for (Product product : allProducts) {
@@ -104,40 +74,52 @@ public class Inventory{
                 productFound = product;
             }
         }
-
         return productFound;
     }
+
+
+    /**Look up the list of parts by name.
+     * @param partName The part name.
+     * @return A list of parts found.*/
+    public ObservableList<Part> lookupPart(String partName) {
+        ObservableList<Part> partFound = FXCollections.observableArrayList();
+
+        for (Part part : allParts) {
+            if (part.getName().equals(partName)) {
+                partFound.add(part);
+            }
+        }
+        return partFound;
+    }
+
 
     /** Searches the list of products by name.
      * @param productName The product name.
      * @return A list of products found.*/
-    public static ObservableList<Product> lookupProduct(String productName) {
-        ObservableList<Product> productsFound = FXCollections.observableArrayList();
+    public ObservableList<Product> lookupProduct(String productName) {
+        ObservableList<Product> productFound = FXCollections.observableArrayList();
 
         for (Product product : allProducts) {
             if (product.getName().equals(productName)) {
-                productsFound.add(product);
+                productFound.add(product);
             }
         }
-
-        return productsFound;
+        return productFound;
     }
 
 
-
-    /** updates a part in the list of parts.
+    /** Update a part in the list of parts.
      * @param index Index of the part to be replaced.
      * @param selectedPart The part used for replacement.*/
-    public static void updatePart (int index, Part selectedPart) {
-
+    public void updatePart (int index, Part selectedPart) {
         allParts.set(index, selectedPart);
     }
 
-    /** Updates a product in the list of products.
+
+    /** Update a product in the list of products.
      * @param index Index of the product to be replaced.
      * @param selectedProduct The product used for replacement.*/
-    public static void updateProduct (int index, Product selectedProduct) {
-
+    public void updateProduct (int index, Product selectedProduct) {
         allProducts.set(index, selectedProduct);
     }
 
@@ -169,5 +151,13 @@ public class Inventory{
         }
     }
 
+
+ //   /**Get list of associated parts for product.
+ //    * @return a list of parts*/
+  //     public ObservableList<Part> getAllParts() {return allParts;}
+
+    //   /**Get list of associated parts for product.
+    //    * @return a list of parts*/
+    //   public ObservableList<Product> getAllProducts() {return allProducts;}
 }
 

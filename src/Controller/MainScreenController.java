@@ -12,11 +12,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -24,26 +26,6 @@ public class MainScreenController implements Initializable{
     /**Create global variable*/
     Stage stage;
     Parent scene;
-
-    /** The part object selected in the table view by the user.*/
-    private static Part partToModify;
-
-    /** Gets the part object selected by the user in the part table.
-     * @return A part object, null if no part selected.*/
-    public static Part getPartToModify() {
-        return partToModify;
-    }
-
-
-    /** The product object selected in the table view by the user.*/
-    private static Product productToModify;
-
-    /** Gets the product object selected by the user in the product table.
-     * @return A product object, null if no product selected.*/
-    public static Product getProductToModify() {
-        return productToModify;
-    }
-
 
     @FXML
     private TextField partSearchText;
@@ -85,10 +67,9 @@ public class MainScreenController implements Initializable{
     void onActionAddParts(ActionEvent event) throws IOException {
         /** Loads the AddPartController.
          * @param event Add button action.*/
-        Parent parent = FXMLLoader.load(getClass().getResource("../view/AddPartScreen.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/AddPartScreen.fxml"));
+        stage.setScene(new Scene(scene));
         stage.show();
     }
 
@@ -96,10 +77,9 @@ public class MainScreenController implements Initializable{
     void onActionAddProducts(ActionEvent event) throws IOException {
         /** Loads the AddProductController.
          * @param event Add button action.*/
-        Parent parent = FXMLLoader.load(getClass().getResource("../view/AddProductScreen.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/AddProductScreen.fxml"));
+        stage.setScene(new Scene(scene));
         stage.show();
     }
 
@@ -113,10 +93,15 @@ public class MainScreenController implements Initializable{
         Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No parts selected.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Please select a part.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
         else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the selected part?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("CONFIRMATION");
+            alert.setContentText("Do you want to delete the selected part?");
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -134,10 +119,15 @@ public class MainScreenController implements Initializable{
         Product selectedProduct = productTableView.getSelectionModel().getSelectedItem();
 
         if (selectedProduct == null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No products selected.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Please select a product.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
         else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the selected product?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("CONFIRMATION");
+            alert.setContentText("Do you want to delete the selected product?");
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -167,13 +157,15 @@ public class MainScreenController implements Initializable{
 
         /**correcting a runtime error by preventing null from being passed to the ModifyPartController.*/
         if (partToModify == null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No parts selected.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Please select a part.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
         else {
-            Parent parent = FXMLLoader.load(getClass().getResource("../view/ModifyPartScreen.fxml"));
-            Scene scene = new Scene(parent);
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/View/ModifyPartScreen.fxml"));
+            stage.setScene(new Scene(scene));
             stage.show();
         }
     }
@@ -189,13 +181,15 @@ public class MainScreenController implements Initializable{
 
         /**correcting a runtime error by preventing null from being passed to the ModifyProductController.*/
         if (productToModify == null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No products selected.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Please select a product.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
         else {
-            Parent parent = FXMLLoader.load(getClass().getResource("../view/ModifyProductScreen.fxml"));
-            Scene scene = new Scene(parent);
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/View/ModifyProductScreen.fxml"));
+            stage.setScene(new Scene(scene));
             stage.show();
         }
     }
@@ -207,19 +201,22 @@ public class MainScreenController implements Initializable{
          * @param event Part search button action.*/
 
         ObservableList<Part> allParts = Inventory.getAllParts();
-        ObservableList<Part> partsFound = FXCollections.observableArrayList();
+        ObservableList<Part> partFound = FXCollections.observableArrayList();
         String searchString = partSearchText.getText();
 
         for (Part part : allParts) {
             if (String.valueOf(part.getId()).contains(searchString) || part.getName().contains(searchString)) {
-                partsFound.add(part);
+                partFound.add(part);
             }
         }
 
-        partTableView.setItems(partsFound);
+        partTableView.setItems(partFound);
 
-        if (partsFound.size() == 0) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Parts are not found.");
+        if (partFound.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Parts not found.");
+            Optional<ButtonType> result = alert.showAndWait();
         }
     }
 
@@ -231,20 +228,22 @@ public class MainScreenController implements Initializable{
          * @param event Products search button action.*/
 
         ObservableList<Product> allProducts= Inventory.getAllProducts();
-        ObservableList<Product> productsFound = FXCollections.observableArrayList();
+        ObservableList<Product> productFound = FXCollections.observableArrayList();
         String searchString = productSearchText.getText();
 
         for (Product product : allProducts) {
             if (String.valueOf(product.getId()).contains(searchString) || product.getName().contains(searchString)) {
-                productsFound.add(product);
+                productFound.add(product);
             }
         }
 
-        productTableView.setItems(productsFound);
+        productTableView.setItems(productFound);
 
-        if (productsFound.size() == 0) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Products are not found.");
-        }
+        if (productFound.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Products not found.");
+            Optional<ButtonType> result = alert.showAndWait();           }
 
     }
 
@@ -269,12 +268,42 @@ public class MainScreenController implements Initializable{
         }
     }
 
+    /** The part object selected in the table view by the user.*/
+    private static Part partToModify;
+
+    /** Gets the part object selected by the user in the part table.
+     * @return A part object, null if no part selected.*/
+    public static Part getPartToModify() {
+        return partToModify;
+    }
+
+
+    /** The product object selected in the table view by the user.*/
+    private static Product productToModify;
+
+    /** Gets the product object selected by the user in the product table.
+     * @return A product object, null if no product selected.*/
+    public static Product getProductToModify() {
+        return productToModify;
+    }
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Populate parts table view
+        partTableView.setItems(Inventory.getAllParts());
+        partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        partInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+        //Populate products table view
+        productTableView.setItems(Inventory.getAllProducts());
+        productIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 }
 
