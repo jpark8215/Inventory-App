@@ -6,10 +6,10 @@ import javafx.collections.ObservableList;
 public class Inventory{
 
     /** Part ID.*/
-    private static int partId = 0;
+    private static final int partId = 0;
 
     /** A list of all parts in the inventory.*/
-    private static ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private static final ObservableList<Part> allParts = FXCollections.observableArrayList();
 
     /** Gets a list of all parts in inventory.
      * @return A list of part objects.*/
@@ -20,10 +20,10 @@ public class Inventory{
 
 
     /** Product ID.*/
-    private static int productId = 0;
+    private static final int productId = 0;
 
     /** A list of all products in the inventory.*/
-    private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
+    private static final ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
     /** Gets a list of all products in inventory.
      * @return A list of product objects.*/

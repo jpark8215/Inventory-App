@@ -21,240 +21,150 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/*
-public class ModifyProductScreenController implements Initializable {
-
-    @FXML
-    private TableView<?> associatedPartTableView;
-
-    @FXML
-    private TableColumn<?, ?> associatedPartIdColumn;
-
-    @FXML
-    private TableColumn<?, ?> associatedPartNameColumn;
-
-    @FXML
-    private TableColumn<?, ?> associatedPartInventoryColumn;
-
-    @FXML
-    private TableColumn<?, ?> associatedPartPriceColumn;
-
-    @FXML
-    private TableView<?> partTableView;
-
-    @FXML
-    private TableColumn<?, ?> partIdColumn;
-
-    @FXML
-    private TableColumn<?, ?> partNameColumn;
-
-    @FXML
-    private TableColumn<?, ?> partInventoryColumn;
-
-    @FXML
-    private TableColumn<?, ?> partPriceColumn;
-
-    @FXML
-    private TextField partSearchText;
-
-    @FXML
-    private TextField productIdText;
-
-    @FXML
-    private TextField productNameText;
-
-    @FXML
-    private TextField productInventoryText;
-
-    @FXML
-    private TextField productPriceText;
-
-    @FXML
-    private TextField productMaxText;
-
-    @FXML
-    private TextField productMinText;
-
-    @FXML
-    void onActionAddParts(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionCancel(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionRemoveAssociatedParts(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionSave(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionSearchParts(ActionEvent event) {
-
-    }
-
-    @FXML
-    void searchKeyPressed(KeyEvent event) {
-
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-}
-*/
 
 public class ModifyProductScreenController implements Initializable {
-
-    /**
-     * The product object selected in the MainScreenController.
-     */
+    /** The product object selected in the MainScreenController.*/
     Product selectedProduct;
 
-    /**
-     * A list of parts associated with the product.
-     */
+    /** A list of parts associated with the product.*/
     private ObservableList<Part> associatedPart = FXCollections.observableArrayList();
 
-    /**
-     * The associated parts table view.
-     */
+
+
+    private void returnToMainScreen(ActionEvent event) throws IOException {
+        /** Loads MainScreenController.
+         * @param event Passed from parent method.
+         * @throws IOException From FXMLLoader.*/
+        Parent parent = FXMLLoader.load(getClass().getResource("../view/MainScreen.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    private boolean minValid(int min, int max) {
+        /** Validates that min is greater than 0 and less than max.
+         * @param min The minimum value for the part.
+         * @param max The maximum value for the part.
+         * @return Boolean indicating if min is valid.*/
+        boolean isValid = true;
+
+        if (min <= 0 || min >= max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid number. Minimum cannot be larger than maximum value.");
+        }
+        return isValid;
+    }
+
+
+    private boolean inventoryValid(int min, int max, int stock) {
+        /**Validates that inventory level is equal too or between min and max.
+         * @param min The minimum value for the part.
+         * @param max The maximum value for the part.
+         * @param stock The inventory level for the part.
+         * @return Boolean indicating if inventory is valid.*/
+        boolean isValid = true;
+
+        if (stock < min || stock > max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.WARNING, "The inventory is less than minimum or larger than maximum value.");
+        }
+        return isValid;
+    }
+
+
+    /** The associated parts table view.*/
     @FXML
     private TableView<Part> associatedPartTableView;
 
-    /**
-     * The part ID column for the associated parts table.
-     */
+    /** The part ID column for the associated parts table.*/
     @FXML
     private TableColumn<Part, Integer> associatedPartIdColumn;
 
-    /**
-     * The part name column for the associated parts table.
-     */
+    /** The part name column for the associated parts table.*/
     @FXML
     private TableColumn<Part, String> associatedPartNameColumn;
 
-    /**
-     * The inventory level column for the associated parts table.
-     */
+    /** The inventory level column for the associated parts table.*/
     @FXML
     private TableColumn<Part, Integer> associatedPartInventoryColumn;
 
-    /**
-     * The part price column for the associated parts table.
-     */
+    /** The part price column for the associated parts table.*/
     @FXML
     private TableColumn<Part, Double> associatedPartPriceColumn;
 
-    /**
-     * The all parts table view.
-     */
+    /** The all parts table view.*/
     @FXML
     private TableView<Part> partTableView;
 
-    /**
-     * The part ID column for all parts table.
-     */
+    /**The part ID column for all parts table.*/
     @FXML
     private TableColumn<Part, Integer> partIdColumn;
 
-    /**
-     * The part name column for the all parts table.
-     */
+    /**The part name column for the all parts table.*/
     @FXML
     private TableColumn<Part, String> partNameColumn;
 
-    /**
-     * The inventory level column for the all parts table.
-     */
+    /**The inventory level column for the all parts table.*/
     @FXML
     private TableColumn<Part, Integer> partInventoryColumn;
 
-    /**
-     * The part price column for the all parts table.
-     */
+    /** The part price column for the all parts table.*/
     @FXML
     private TableColumn<Part, Double> partPriceColumn;
 
-    /**
-     * The part search text field.
-     */
+    /** The part search text field.*/
     @FXML
     private TextField partSearchText;
 
-    /**
-     * The product ID text field.
-     */
+    /** The product ID text field.*/
     @FXML
     private TextField productIdText;
 
-    /**
-     * The product name text field.
-     */
+    /** The product name text field.*/
     @FXML
     private TextField productNameText;
 
-    /**
-     * The product inventory level text field.
-     */
+    /** The product inventory level text field.*/
     @FXML
     private TextField productInventoryText;
 
-    /**
-     * The product price text field.
-     */
+    /** The product price text field.*/
     @FXML
     private TextField productPriceText;
 
-    /**
-     * The product maximum level text field.
-     */
+    /** The product maximum level text field.*/
     @FXML
     private TextField productMaxText;
 
-    /**
-     * The product minimum level text field.
-     */
+    /** The product minimum level text field.*/
     @FXML
     private TextField productMinText;
 
-    /**
-     * Adds part object selected in the all parts table to the associated parts table.
-     *
-     * Displays error message if no part is selected.
-     *
-     * @param event Add button action.
-     */
-    @FXML
-    void addButtonAction(ActionEvent event) {
 
+    @FXML
+    void onActionAddParts(ActionEvent event) {
+        /**Adds part object selected in the all parts table to the associated parts table.
+         * Displays error message if no part is selected.
+         * @param event Add button action.*/
         Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
-            displayAlert(5);
-        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Part is not selected.");
+        }
+        else {
             associatedPart.add(selectedPart);
             associatedPartTableView.setItems(associatedPart);
         }
     }
 
-    /**
-     * Displays confirmation dialog and loads MainScreenController.
-     *
-     * @param event Cancel button action.
-     * @throws IOException From FXMLLoader.
-     */
-    @FXML
-    void cancelButtonAction(ActionEvent event) throws IOException {
 
+    @FXML
+    void onActionCancel(ActionEvent event) throws IOException {
+        /**Displays confirmation dialog and loads MainScreenController.
+         * @param event Cancel button action.
+         * @throws IOException From FXMLLoader.*/
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
         alert.setContentText("Do you want cancel changes and return to the main screen?");
@@ -265,21 +175,18 @@ public class ModifyProductScreenController implements Initializable {
         }
     }
 
-    /**
-     * Displays confirmation dialog and removes selected part from associated parts table.
-     *
-     * Displays error message if no part is selected.
-     *
-     * @param event Remove button action.
-     */
-    @FXML
-    void removeButtonAction(ActionEvent event) {
 
+    @FXML
+    void onActionRemoveAssociatedParts(ActionEvent event) {
+        /**Displays confirmation dialog and removes selected part from associated parts table.
+         * Displays error message if no part is selected.
+         * @param event Remove button action.*/
         Part selectedPart = associatedPartTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
-            displayAlert(5);
-        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Part is not selected.");
+        }
+        else {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Alert");
@@ -293,18 +200,13 @@ public class ModifyProductScreenController implements Initializable {
         }
     }
 
-    /**
-     * Replaces product in inventory and loads MainScreenController.
-     *
-     * Text fields are validated with error messages displayed preventing empty and/or
-     * invalid values.
-     *
-     * @param event Save button action.
-     * @throws IOException From FXMLLoader.
-     */
-    @FXML
-    void saveButtonAction(ActionEvent event) throws IOException {
 
+    @FXML
+    void onActionSave (ActionEvent event) throws IOException {
+        /**Replaces product in inventory and loads MainScreenController.
+         * Text fields are validated with error messages displayed preventing empty and/or invalid values.
+         * @param event Save button action.
+         * @throws IOException From FXMLLoader.*/
         try {
             int id = selectedProduct.getId();
             String name = productNameText.getText();
@@ -314,8 +216,9 @@ public class ModifyProductScreenController implements Initializable {
             int max = Integer.parseInt(productMaxText.getText());
 
             if (name.isEmpty()) {
-                displayAlert(7);
-            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter valid name.");
+            }
+            else {
                 if (minValid(min, max) && inventoryValid(min, max, stock)) {
 
                     Product newProduct = new Product(id, name, price, stock, min, max);
@@ -329,22 +232,18 @@ public class ModifyProductScreenController implements Initializable {
                     returnToMainScreen(event);
                 }
             }
-        } catch (Exception e){
-            displayAlert(1);
+        }
+        catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid value or Empty field. Please enter valid data.");
         }
     }
 
-    /**
-     * Initiates a search based on value in parts search text field and refreshes the parts
-     * table view with search results.
-     *
-     * Parts can be searched for by ID or name.
-     *
-     * @param event Part search button action.
-     */
-    @FXML
-    void searchBtnAction(ActionEvent event) {
 
+    @FXML
+    void onActionSearchParts(ActionEvent event) {
+        /**Initiates a search based on value in parts search text field and refreshes the parts table view with search results.
+         * Parts can be searched for by ID or name.
+         * @param event Part search button action.*/
         ObservableList<Part> allParts = Inventory.getAllParts();
         ObservableList<Part> partsFound = FXCollections.observableArrayList();
         String searchString = partSearchText.getText();
@@ -359,133 +258,28 @@ public class ModifyProductScreenController implements Initializable {
         partTableView.setItems(partsFound);
 
         if (partsFound.size() == 0) {
-            displayAlert(1);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid value or Empty field. Please enter valid data.");
+
         }
     }
 
-    /**
-     * Refreshes part table view to show all parts when parts search text field is empty.
-     *
-     * @param event Parts search text field key pressed.
-     */
+
     @FXML
     void searchKeyPressed(KeyEvent event) {
-
+        /**Refreshes part table view to show all parts when parts search text field is empty.
+         * @param event Parts search text field key pressed.*/
         if (partSearchText.getText().isEmpty()) {
             partTableView.setItems(Inventory.getAllParts());
         }
     }
 
-    /**
-     * Loads MainScreenController.
-     *
-     * @param event Passed from parent method.
-     * @throws IOException From FXMLLoader.
-     */
-    private void returnToMainScreen(ActionEvent event) throws IOException {
 
-        Parent parent = FXMLLoader.load(getClass().getResource("../view/MainScreen.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
 
-    /**
-     * Validates that min is greater than 0 and less than max.
-     *
-     * @param min The minimum value for the part.
-     * @param max The maximum value for the part.
-     * @return Boolean indicating if min is valid.
-     */
-    private boolean minValid(int min, int max) {
-
-        boolean isValid = true;
-
-        if (min <= 0 || min >= max) {
-            isValid = false;
-            displayAlert(3);
-        }
-
-        return isValid;
-    }
-
-    /**
-     * Validates that inventory level is equal too or between min and max.
-     *
-     * @param min The minimum value for the part.
-     * @param max The maximum value for the part.
-     * @param stock The inventory level for the part.
-     * @return Boolean indicating if inventory is valid.
-     */
-    private boolean inventoryValid(int min, int max, int stock) {
-
-        boolean isValid = true;
-
-        if (stock < min || stock > max) {
-            isValid = false;
-            displayAlert(4);
-        }
-
-        return isValid;
-    }
-
-    /**
-     * Displays various alert messages.
-     *
-     * @param alertType Alert message selector.
-     */
-    private void displayAlert(int alertType) {
-
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
-
-        switch (alertType) {
-            case 1:
-                alert.setTitle("Error");
-                alert.setHeaderText("Error Modifying Product");
-                alert.setContentText("Form contains blank fields or invalid values.");
-                alert.showAndWait();
-                break;
-            case 2:
-                alertInfo.setTitle("Information");
-                alertInfo.setHeaderText("Part not found");
-                alertInfo.showAndWait();
-                break;
-            case 3:
-                alert.setTitle("Error");
-                alert.setHeaderText("Invalid value for Min");
-                alert.setContentText("Min must be a number greater than 0 and less than Max.");
-                alert.showAndWait();
-                break;
-            case 4:
-                alert.setTitle("Error");
-                alert.setHeaderText("Invalid value for Inventory");
-                alert.setContentText("Inventory must be a number equal to or between Min and Max");
-                alert.showAndWait();
-                break;
-            case 5:
-                alert.setTitle("Error");
-                alert.setHeaderText("Part not selected");
-                alert.showAndWait();
-                break;
-            case 7:
-                alert.setTitle("Error");
-                alert.setHeaderText("Name Empty");
-                alert.setContentText("Name cannot be empty.");
-                alert.showAndWait();
-                break;
-        }
-    }
-
-    /**
-     * Initializes controller and populates text fields with product selected in MainScreenController.
-     *
-     * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
-     * @param resources The resources used to localize the root object, or null if the root object was not localized.
-     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        /**Initializes controller and populates text fields with product selected in MainScreenController.
+         * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
+         * @param resources The resources used to localize the root object, or null if the root object was not localized.*/
 
         selectedProduct = MainScreenController.getProductToModify();
         associatedPart = selectedProduct.getAllAssociatedParts();

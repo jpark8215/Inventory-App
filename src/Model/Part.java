@@ -21,7 +21,7 @@ public abstract class Part {
         this.max = max;
     }
 
-    /** Return the id*/
+    /** @Return the id*/
     public int getId() {
         return id;
     }

@@ -20,11 +20,11 @@ import java.util.ResourceBundle;
 public class AddPartScreenController implements Initializable {
 
 
-    /**Loads MainScreenController.
-     * @param event Passed from parent method.
-     * @throws java.io.IOException From FXMLLoader.*/
-    private void returnToMainScreen(ActionEvent event) throws IOException {
 
+    private void returnToMainScreen(ActionEvent event) throws IOException {
+        /**Loads MainScreenController.
+         * @param event Passed from parent method.
+         * @throws java.io.IOException From FXMLLoader.*/
         Parent parent = FXMLLoader.load(getClass().getResource("../view/MainScreen.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -32,12 +32,12 @@ public class AddPartScreenController implements Initializable {
         stage.show();
     }
 
-    /** Validates that min is greater than 0 and less than max.
-     * @param min The minimum value for the part.
-     * @param max The maximum value for the part.
-     * @return Boolean indicating if min is valid.*/
-    private boolean minValid(int min, int max) {
 
+    private boolean minValid(int min, int max) {
+        /** Validates that min is greater than 0 and less than max.
+         * @param min The minimum value for the part.
+         * @param max The maximum value for the part.
+         * @return Boolean indicating if min is valid.*/
         boolean isValid = true;
 
         if (min <= 0 || min >= max) {
@@ -48,13 +48,13 @@ public class AddPartScreenController implements Initializable {
         return isValid;
     }
 
-    /** Validates that inventory level is equal too or between min and max.
-     * @param min   The minimum value for the part.
-     * @param max   The maximum value for the part.
-     * @param stock The inventory level for the part.
-     * @return Boolean indicating if inventory is valid.*/
-    private boolean inventoryValid(int min, int max, int stock) {
 
+    private boolean inventoryValid(int min, int max, int stock) {
+        /** Validates that inventory level is equal too or between min and max.
+         * @param min   The minimum value for the part.
+         * @param max   The maximum value for the part.
+         * @param stock The inventory level for the part.
+         * @return Boolean indicating if inventory is valid.*/
         boolean isValid = true;
 
         if (stock < min || stock > max) {
@@ -67,7 +67,7 @@ public class AddPartScreenController implements Initializable {
 
     /** Inhouse radio button.*/
     @FXML
-    private RadioButton inHouseRadioButton;
+    private RadioButton inhouseRadioButton;
 
     /** Part toggle group radio button.*/
     @FXML
@@ -163,7 +163,7 @@ public class AddPartScreenController implements Initializable {
             } else {
                 if (minValid(min, max) && inventoryValid(min, max, stock)) {
 
-                    if (inHouseRadioButton.isSelected()) {
+                    if (inhouseRadioButton.isSelected()) {
                         try {
                             machineId = Integer.parseInt(partIdNameText.getText());
                             InhousePart newInhousePart = new InhousePart(id, name, price, stock, min, max, machineId);
@@ -197,6 +197,6 @@ public class AddPartScreenController implements Initializable {
         /** Initializes controller and sets in-house radio button to true.
          * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
          * @param resources The resources used to localize the root object, or null if the root object was not localized.*/
-        inHouseRadioButton.setSelected(true);
+        inhouseRadioButton.setSelected(true);
     }
 }

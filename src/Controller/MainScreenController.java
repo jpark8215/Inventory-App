@@ -110,7 +110,7 @@ public class MainScreenController implements Initializable{
          * The method displays an error message if no part is selected and a confirmation dialog before deleting the selected part.
          * @param event Part delete button action.*/
 
-        Part selectedPart = (Part) partTableView.getSelectionModel().getSelectedItem();
+        Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPart == null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No parts selected.");
@@ -131,7 +131,7 @@ public class MainScreenController implements Initializable{
          * The method displays an error message if no product is selected and a confirmation dialog before deleting the selected product.
          * @param event Product delete button action.*/
 
-        Product selectedProduct = (Product) productTableView.getSelectionModel().getSelectedItem();
+        Product selectedProduct = productTableView.getSelectionModel().getSelectedItem();
 
         if (selectedProduct == null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No products selected.");
@@ -163,7 +163,7 @@ public class MainScreenController implements Initializable{
          * The method displays an error message if no part is selected.
          * @param event Part modify button action.*/
 
-        partToModify = (Part) partTableView.getSelectionModel().getSelectedItem();
+        partToModify = partTableView.getSelectionModel().getSelectedItem();
 
         /**correcting a runtime error by preventing null from being passed to the ModifyPartController.*/
         if (partToModify == null) {
@@ -185,7 +185,7 @@ public class MainScreenController implements Initializable{
          * The method displays an error message if no product is selected.
          * @param event Product modify button action.*/
 
-        productToModify = (Product) productTableView.getSelectionModel().getSelectedItem();
+        productToModify = productTableView.getSelectionModel().getSelectedItem();
 
         /**correcting a runtime error by preventing null from being passed to the ModifyProductController.*/
         if (productToModify == null) {
