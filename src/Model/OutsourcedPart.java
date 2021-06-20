@@ -1,7 +1,7 @@
 package Model;
 
 /**Class OutsourcedPart.java*/
-/** @author Jieun Par*/
+/** @author Jieun Park*/
 
 public class OutsourcedPart extends Part {
 

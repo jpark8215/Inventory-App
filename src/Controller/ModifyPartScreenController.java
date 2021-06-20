@@ -19,55 +19,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**Class ModifyPartScreenController.java*/
+/** @author Jieun Park*/
 
 public class ModifyPartScreenController implements Initializable {
     Stage stage;
     Parent scene;
-
-    /** The part object selected in the MainScreenController.*/
-    private Part selectedPart;
-
-
-    private void returnToMainScreen(ActionEvent event) throws IOException {
-        /** Loads MainScreenController.
-         * @param event Passed from parent method.
-         * @throws IOException From FXMLLoader.*/
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-    }
-
-
-    private boolean minValid(int min, int max) {
-        /** Validates that min is greater than 0 and less than max.
-         * @param min The minimum value for the part.
-         * @param max The maximum value for the part.
-         * @return Boolean indicating if min is valid.*/
-        boolean isValid = true;
-
-        if (min <= 0 || min >= max) {
-            isValid = false;
-            Alert alert = new Alert(Alert.AlertType.WARNING, "The inventory is less than minimum or larger than maximum value.");
-        }
-        return isValid;
-    }
-
-
-    private boolean inventoryValid(int min, int max, int stock) {
-        /** Validates that inventory level is equal too or between min and max.
-         * @param min The minimum value for the part.
-         * @param max The maximum value for the part.
-         * @param stock The inventory level for the part.
-         * @return Boolean indicating if inventory is valid.*/
-        boolean isValid = true;
-
-        if (stock < min || stock > max) {
-            isValid = false;
-            Alert alert = new Alert(Alert.AlertType.WARNING, "The inventory is less than minimum or larger than maximum value.");
-        }
-        return isValid;
-    }
 
     /** The machine ID/company name label for the part.*/
     @FXML
@@ -113,14 +70,11 @@ public class ModifyPartScreenController implements Initializable {
     @FXML
     private TextField partMinText;
 
-
-
     @FXML
     void onActionCancelModifyParts(ActionEvent event) throws IOException{
-/** Displays confirmation dialog and loads MainScreenController.
- * @param event Cancel button action.
- * @throws IOException From FXMLLoader.*/
-
+        /** Displays confirmation dialog and loads MainScreenController.
+        * @param event Cancel button action.
+        * @throws IOException From FXMLLoader.*/
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("CONFIRMATION");
         alert.setContentText("Changes will not be saved. Do you want to return to the main screen?");
@@ -135,7 +89,6 @@ public class ModifyPartScreenController implements Initializable {
     void onActionInhouseRadio(ActionEvent event) {
         /** Sets machine ID/company name label to "Machine ID".
          * @param event In-house radio button action.*/
-
         partIdNameLabel.setText("Machine ID");
     }
 
@@ -150,10 +103,10 @@ public class ModifyPartScreenController implements Initializable {
 
     @FXML
     void onActionSaveModifyParts(ActionEvent event)  {
-/** Replaces part in inventory and loads MainScreenController.
- * Text fields are validated with error messages displayed preventing empty and/or invalid values.
- * @param event Save button action.
- * @throws IOException From FXMLLoader.*/
+         /** Replaces part in inventory and loads MainScreenController.
+         * Text fields are validated with error messages displayed preventing empty and/or invalid values.
+         * @param event Save button action.
+         * @throws IOException From FXMLLoader.*/
 
         try {
             int id = selectedPart.getId();
@@ -205,7 +158,54 @@ public class ModifyPartScreenController implements Initializable {
         }
     }
 
+    /** The part object selected in the MainScreenController.*/
+    private Part selectedPart;
 
+
+    private void returnToMainScreen(ActionEvent event) throws IOException {
+        /** Loads MainScreenController.
+         * @param event Passed from parent method.
+         * @throws IOException From FXMLLoader.*/
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+
+    private boolean minValid(int min, int max) {
+        /** Validates that min is greater than 0 and less than max.
+         * @param min The minimum value for the part.
+         * @param max The maximum value for the part.
+         * @return Boolean indicating if min is valid.*/
+        boolean isValid = true;
+
+        if (min <= 0 || min >= max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Minimum must be greater than or equal to zero, or less than Maximum.");
+            alert.showAndWait();        }
+        return isValid;
+    }
+
+
+    private boolean inventoryValid(int min, int max, int stock) {
+        /** Validates that inventory level is equal too or between min and max.
+         * @param min The minimum value for the part.
+         * @param max The maximum value for the part.
+         * @param stock The inventory level for the part.
+         * @return Boolean indicating if inventory is valid.*/
+        boolean isValid = true;
+
+        if (stock < min || stock > max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Inventory must be between the minimum or maximum value.");
+            alert.showAndWait();        }
+        return isValid;
+    }
 
 
     @Override
@@ -213,7 +213,6 @@ public class ModifyPartScreenController implements Initializable {
         /**Initializes controller and populates text fields with part selected in MainScreenController.
          * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
          * @param resources The resources used to localize the root object, or null if the root object was not localized.*/
-
         selectedPart = MainScreenController.getPartToModify();
 
         if (selectedPart instanceof InhousePart) {

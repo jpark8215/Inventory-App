@@ -3,6 +3,7 @@ package Controller;
 import Model.InhousePart;
 import Model.Inventory;
 import Model.OutsourcedPart;
+import Model.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+/**Class AddPartScreenController.java*/
+/** @author Jieun Park*/
 
 public class AddPartScreenController implements Initializable {
     Stage stage;
@@ -104,7 +108,7 @@ public class AddPartScreenController implements Initializable {
          * @throws IOException From FXMLLoader.*/
 
         try {
-            int id = 0;
+            int id = Integer.parseInt(partIdText.getText());
             String name = partNameText.getText();
             double price = Double.parseDouble(partPriceText.getText());
             int stock = Integer.parseInt(partInventoryText.getText());
@@ -117,7 +121,7 @@ public class AddPartScreenController implements Initializable {
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("ERROR");
-                alert.setContentText("Part Name is empty. Please enter a valid entry.");
+                alert.setContentText("Part Name is empty.");
                 alert.showAndWait();
             }
 
@@ -141,11 +145,11 @@ public class AddPartScreenController implements Initializable {
                         }
                     }
                     if (outsourcedRadioButton.isSelected()) {
-                        companyName = partIdNameText.getText();
-                        OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max, companyName);
-                        newOutsourcedPart.setId(Inventory.getNewPartId());
-                        Inventory.addPart(newOutsourcedPart);
-                        partAdded = true;
+                            companyName = partIdNameText.getText();
+                            OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max, companyName);
+                            newOutsourcedPart.setId(Inventory.getNewPartId());
+                            Inventory.addPart(newOutsourcedPart);
+                            partAdded = true;
                     }
 
                     if (partAdded) {
@@ -209,7 +213,7 @@ public class AddPartScreenController implements Initializable {
     }
 
 
-        @Override
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }

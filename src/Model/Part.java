@@ -1,7 +1,7 @@
 package Model;
 
 /** Supplied Class Part.java*/
-/** @author Jieun Par*/
+/** @author Jieun Park*/
 
 public abstract class Part {
     private int id;

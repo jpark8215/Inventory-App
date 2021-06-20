@@ -21,59 +21,78 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**Class InhousePart.java*/
+/** @author Jieun Park*/
+
 public class AddProductScreenController implements Initializable {
     Stage stage;
     Parent scene;
 
-
+    /** The associated parts table view.*/
     @FXML
     private TableView<Part> associatedPartTableView;
 
+    /** The part ID column for the associated parts table.*/
     @FXML
     private TableColumn<Part, Integer> associatedPartIdColumn;
 
+    /** The part name column for the associated parts table.*/
     @FXML
     private TableColumn<Part, String> associatedPartNameColumn;
 
+    /** The inventory level column for the associated parts table.*/
     @FXML
     private TableColumn<Part, Integer> associatedPartInventoryColumn;
 
+    /** The part price column for the associated parts table.*/
     @FXML
     private TableColumn<Part, Double> associatedPartPriceColumn;
 
+    /** The all parts table view.*/
     @FXML
     private TableView<Part> partTableView;
 
+    /**The part ID column for all parts table.*/
     @FXML
     private TableColumn<Part, Integer> partIdColumn;
 
+    /**The part name column for the all parts table.*/
     @FXML
     private TableColumn<Part, String> partNameColumn;
 
+    /**The inventory level column for the all parts table.*/
     @FXML
     private TableColumn<Part, Integer> partInventoryColumn;
 
+    /** The part price column for the all parts table.*/
     @FXML
     private TableColumn<Part, Double> partPriceColumn;
 
+    /** The part search text field.*/
     @FXML
     private TextField partSearchText;
 
+    /** The product ID text field.*/
     @FXML
     private TextField productIdText;
 
+    /** The product name text field.*/
     @FXML
     private TextField productNameText;
 
+    /** The product inventory text field.*/
     @FXML
     private TextField productInventoryText;
 
+    /** The product price text field.*/
     @FXML
     private TextField productPriceText;
 
+    /** The product maximum level text field.*/
     @FXML
     private TextField productMaxText;
 
+    /** The product minimum level text field.*/
     @FXML
     private TextField productMinText;
 
@@ -152,7 +171,7 @@ public class AddProductScreenController implements Initializable {
          * @throws IOException From FXMLLoader.*/
 
         try {
-            int id = 0;
+            int id = Integer.parseInt(productIdText.getText());
             String name = productNameText.getText();
             double price = Double.parseDouble(productPriceText.getText());
             int stock = Integer.parseInt(productInventoryText.getText());
@@ -206,7 +225,6 @@ public class AddProductScreenController implements Initializable {
                 partFound.add(part);
             }
         }
-
         partTableView.setItems(partFound);
 
         if (partFound.size() == 0) {
@@ -221,7 +239,6 @@ public class AddProductScreenController implements Initializable {
     void partSearchKeyPressed(KeyEvent event) {
         /**Refreshes part table view to show all parts when parts search text field is empty.
          * @param event Parts search text field key pressed.*/
-
         if (partSearchText.getText().isEmpty()) {
             partTableView.setItems(Inventory.getAllParts());
         }

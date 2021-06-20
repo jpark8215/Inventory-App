@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**Class Product.java*/
-/** @author Jieun Par*/
+/** @author Jieun Park*/
 
 public class Product {
 

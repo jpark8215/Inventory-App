@@ -22,7 +22,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**Class InhousePart.java*/
+/** @author Jieun Pakr*/
+
 public class MainScreenController implements Initializable{
+
     /**Create global variable*/
     Stage stage;
     Parent scene;
@@ -83,7 +87,6 @@ public class MainScreenController implements Initializable{
         stage.show();
     }
 
-
     @FXML
     void onActionDeleteParts(ActionEvent event) {
         /** Deletes the part selected by the user in the part table.
@@ -136,7 +139,6 @@ public class MainScreenController implements Initializable{
         }
     }
 
-
     @FXML
     void onActionExit(ActionEvent event) {
         /** Exits the program.
@@ -145,10 +147,8 @@ public class MainScreenController implements Initializable{
 
     }
 
-
     @FXML
     void onActionModifyParts(ActionEvent event) throws IOException {
-
         /** Loads the ModifyPartController.
          * The method displays an error message if no part is selected.
          * @param event Part modify button action.*/
@@ -268,9 +268,10 @@ public class MainScreenController implements Initializable{
         }
     }
 
+
+
     /** The part object selected in the table view by the user.*/
     private static Part partToModify;
-
     /** Gets the part object selected by the user in the part table.
      * @return A part object, null if no part selected.*/
     public static Part getPartToModify() {
@@ -280,7 +281,6 @@ public class MainScreenController implements Initializable{
 
     /** The product object selected in the table view by the user.*/
     private static Product productToModify;
-
     /** Gets the product object selected by the user in the product table.
      * @return A product object, null if no product selected.*/
     public static Product getProductToModify() {

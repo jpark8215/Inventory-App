@@ -1,7 +1,7 @@
 package Model;
 
 /**Class InhousePart.java*/
-/** @author Jieun Par*/
+/** @author Jieun Park*/
 
 public class InhousePart extends Part{
     private int machineId;

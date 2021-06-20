@@ -21,6 +21,8 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**Class InhousePart.java*/
+/** @author Jieun Park*/
 
 public class ModifyProductScreenController implements Initializable {
     Stage stage;
@@ -171,7 +173,7 @@ public class ModifyProductScreenController implements Initializable {
         try {
             int id = selectedProduct.getId();
             String name = productNameText.getText();
-            Double price = Double.parseDouble(productPriceText.getText());
+            double price = Double.parseDouble(productPriceText.getText());
             int stock = Integer.parseInt(productInventoryText.getText());
             int min = Integer.parseInt(productMinText.getText());
             int max = Integer.parseInt(productMaxText.getText());
@@ -220,7 +222,6 @@ public class ModifyProductScreenController implements Initializable {
                 partFound.add(part);
             }
         }
-
         partTableView.setItems(partFound);
 
         if (partFound.size() == 0) {
@@ -241,9 +242,10 @@ public class ModifyProductScreenController implements Initializable {
         }
     }
 
+
+
     /** A list of parts associated with the product.*/
     private ObservableList<Part> associatedPart = FXCollections.observableArrayList();
-
 
 
     private void returnToMainScreen(ActionEvent event) throws IOException {
