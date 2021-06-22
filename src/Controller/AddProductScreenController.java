@@ -21,87 +21,129 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/**Class InhousePart.java*/
-/** @author Jieun Park*/
+/**
+ * Class InhousePart.java
+ @author Jieun Park
+ */
 
 public class AddProductScreenController implements Initializable {
     Stage stage;
     Parent scene;
 
-    /** The associated parts table view.*/
+    /**
+     * List of parts associated with the product.
+     */
+    private ObservableList<Part> associatedPart = FXCollections.observableArrayList();
+
+
+    /**
+     * Associated part table view.
+     */
     @FXML
     private TableView<Part> associatedPartTableView;
 
-    /** The part ID column for the associated parts table.*/
+    /**
+     * Part ID column for the associated part table.
+     */
     @FXML
     private TableColumn<Part, Integer> associatedPartIdColumn;
 
-    /** The part name column for the associated parts table.*/
+    /** Part name column for the associated part table.
+     */
     @FXML
     private TableColumn<Part, String> associatedPartNameColumn;
 
-    /** The inventory level column for the associated parts table.*/
+    /** Inventory level column for the associated part table.
+     */
     @FXML
     private TableColumn<Part, Integer> associatedPartInventoryColumn;
 
-    /** The part price column for the associated parts table.*/
+    /**
+     * Part price column for the associated part table.
+     */
     @FXML
     private TableColumn<Part, Double> associatedPartPriceColumn;
 
-    /** The all parts table view.*/
+    /**
+     * All parts table view.
+     */
     @FXML
     private TableView<Part> partTableView;
 
-    /**The part ID column for all parts table.*/
+    /**
+     * Part ID column for all parts table.
+     */
     @FXML
     private TableColumn<Part, Integer> partIdColumn;
 
-    /**The part name column for the all parts table.*/
+    /**
+     * Part name column for the all parts table.
+     */
     @FXML
     private TableColumn<Part, String> partNameColumn;
 
-    /**The inventory level column for the all parts table.*/
+    /**
+     * Inventory column for the all parts table.
+     */
     @FXML
     private TableColumn<Part, Integer> partInventoryColumn;
 
-    /** The part price column for the all parts table.*/
+    /**
+     * Part price column for the all parts table.
+     */
     @FXML
     private TableColumn<Part, Double> partPriceColumn;
 
-    /** The part search text field.*/
+    /**
+     * Part search text field.
+     */
     @FXML
     private TextField partSearchText;
 
-    /** The product ID text field.*/
+    /**
+     * Product ID text field.
+     */
     @FXML
     private TextField productIdText;
 
-    /** The product name text field.*/
+    /**
+     * Product name text field.
+     */
     @FXML
     private TextField productNameText;
 
-    /** The product inventory text field.*/
+    /**
+     * Product inventory text field.
+     */
     @FXML
     private TextField productInventoryText;
 
-    /** The product price text field.*/
+    /**
+     * Product price text field.
+     */
     @FXML
     private TextField productPriceText;
 
-    /** The product maximum level text field.*/
+    /**
+     * Product maximum text field.
+     */
     @FXML
     private TextField productMaxText;
 
-    /** The product minimum level text field.*/
+    /**
+     * Product minimum level text field.
+     */
     @FXML
     private TextField productMinText;
 
 
+    /**
+     * Add part selected in the all parts table to the associated parts table.
+     * Display error message when part is not selected.
+     * @param event Add button action.
+     * */
     @FXML
     void onActionAddParts(ActionEvent event) {
-        /** Adds part object selected in the all parts table to the associated parts table.
-         * Displays error message if no part is selected.
-         * @param event Add button action.*/
 
         Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
 
@@ -118,15 +160,17 @@ public class AddProductScreenController implements Initializable {
     }
 
 
+    /**
+     * Confirmation dialog and MainScreenController loader.
+     * @param event Cancel button action.
+     * @throws IOException From FXMLLoader.
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
-        /** Displays confirmation dialog and loads MainScreenController.
-         * @param event Cancel button action.
-         * @throws IOException From FXMLLoader.*/
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("CONFIRMATION");
-        alert.setContentText("Changes will not be saved. Do you want to return to the main screen?");
+        alert.setContentText("Do you want to return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -135,11 +179,13 @@ public class AddProductScreenController implements Initializable {
     }
 
 
+    /**
+     * Confirmation dialog to remove selected part from associated parts table.
+     * Display error message when part is not selected.
+     * @param event Remove button action.
+     */
     @FXML
     void onActionRemoveAssociatedParts(ActionEvent event) {
-        /** Displays confirmation dialog and removes selected part from associated parts table.
-         * Displays error message if no part is selected.
-         * @param event Remove button action.*/
 
         Part selectedPart = associatedPartTableView.getSelectionModel().getSelectedItem();
 
@@ -163,12 +209,15 @@ public class AddProductScreenController implements Initializable {
     }
 
 
+    /**
+     * Save new product to inventory and load MainScreenController.
+     * Text fields are checked.
+     * Display error messages preventing empty and/or invalid values.
+     * @param event Save button action.
+     * @throws IOException From FXMLLoader.
+     */
     @FXML
     void onActionSave(ActionEvent event) {
-        /** Adds new product to inventory and loads MainScreenController.
-         * Text fields are validated with error messages displayed preventing empty and/or invalid values.
-         * @param event Save button action.
-         * @throws IOException From FXMLLoader.*/
 
         try {
             int id = Integer.parseInt(productIdText.getText());
@@ -200,7 +249,6 @@ public class AddProductScreenController implements Initializable {
                 }
             }
         }
-
         catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -210,11 +258,13 @@ public class AddProductScreenController implements Initializable {
     }
 
 
+    /**
+     * Search the value in the search text field and renew the part table view with search result.
+     * Part can be searched by ID or name.
+     * @param event Part search button action.
+     */
     @FXML
     void onActionSearchParts(ActionEvent event) {
-        /** Initiates a search based on value in parts search text field and refreshes the parts table view with search results.
-         * Parts can be searched for by ID or name.
-         * @param event Part search button action.*/
 
         ObservableList<Part> allParts = Inventory.getAllParts();
         ObservableList<Part> partFound = FXCollections.observableArrayList();
@@ -235,24 +285,27 @@ public class AddProductScreenController implements Initializable {
         }
     }
 
+
+    /**
+     * Renew part table to show all parts when part search text field is empty.
+     * @param event Parts search text field key pressed.
+     */
     @FXML
     void partSearchKeyPressed(KeyEvent event) {
-        /**Refreshes part table view to show all parts when parts search text field is empty.
-         * @param event Parts search text field key pressed.*/
+
         if (partSearchText.getText().isEmpty()) {
             partTableView.setItems(Inventory.getAllParts());
         }
     }
 
 
-    /** A list containing parts associated with the product.*/
-    private final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
-
-
+    /**
+     * Load MainScreenController.
+     * @param event Passed from parent method.
+     * @throws IOException From FXMLLoader.
+     */
     private void returnToMainScreen(ActionEvent event) throws IOException {
-/** Loads MainScreenController.
- * @param event Passed from parent method.
- * @throws IOException From FXMLLoader.*/
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
         stage.setScene(new Scene(scene));
@@ -260,11 +313,14 @@ public class AddProductScreenController implements Initializable {
     }
 
 
+    /**
+     * Confirm that min is greater than zero and less than max.
+     * @param min Minimum value for the part.
+     * @param max Maximum value for the part.
+     * @return Boolean indicating if min is valid.
+     */
     private boolean minValid(int min, int max) {
-        /** Validates that min is greater than 0 and less than max.
-         * @param min The minimum value for the part.
-         * @param max The maximum value for the part.
-         * @return Boolean indicating if min is valid.*/
+
         boolean isValid = true;
 
         if (min <= 0 || min >= max) {
@@ -278,12 +334,15 @@ public class AddProductScreenController implements Initializable {
     }
 
 
+    /**
+     * Confirm that inventory is equal to or between min and max.
+     * @param min Minimum value for the part.
+     * @param max Maximum value for the part.
+     * @param stock The inventory for the part.
+     * @return Boolean indicating if inventory is valid.
+     */
     private boolean inventoryValid(int min, int max, int stock) {
-        /** Validates that inventory level is equal too or between min and max.
-         * @param min   The minimum value for the part.
-         * @param max   The maximum value for the part.
-         * @param stock The inventory level for the part.
-         * @return Boolean indicating if inventory is valid.*/
+
         boolean isValid = true;
 
         if (stock < min || stock > max) {
@@ -297,11 +356,14 @@ public class AddProductScreenController implements Initializable {
     }
 
 
+    /**
+     * Initialize controller and populate table views.
+     * @param location Location used to resolve relative paths for the root object, or null for unknown location.
+     * @param resources Resources used to localize the root object, or null for un localized root object.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /**Initializes controller and populates table views.
-         * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
-         * @param resources The resources used to localize the root object, or null if the root object was not localized.*/
+
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));

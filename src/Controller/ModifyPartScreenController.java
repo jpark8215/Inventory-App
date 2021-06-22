@@ -19,65 +19,93 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/**Class ModifyPartScreenController.java*/
-/** @author Jieun Park*/
+/**
+ * Class ModifyPartScreenController.java
+ @author Jieun Park
+ */
 
 public class ModifyPartScreenController implements Initializable {
     Stage stage;
     Parent scene;
 
-    /** The machine ID/company name label for the part.*/
+    /**
+     * Machine ID/company name label for the part.
+     */
     @FXML
     private Label partIdNameLabel;
 
-    /** The in-house radio button.*/
+    /**
+     * In-house radio button.
+     */
     @FXML
     private RadioButton inhouseRadioButton;
 
-    /** The toggle group for the radio buttons.*/
+    /**
+     * Toggle group for the radio buttons.
+     */
     @FXML
     private ToggleGroup partTypeTG;
 
-    /** The outsourced radio button.*/
+    /**
+     * Outsourced radio button.
+     * */
     @FXML
     private RadioButton outsourcedRadioButton;
 
-    /** The part ID text field.*/
+    /**
+     * Part ID text field.
+     */
     @FXML
     private TextField partIdText;
 
-    /** The part name text field.*/
+    /**
+     * Part name text field.
+     */
     @FXML
     private TextField partNameText;
 
-    /** The inventory level text field.*/
+    /**
+     * Inventory text field.
+     */
     @FXML
     private TextField partInventoryText;
 
-    /** The part price text field.*/
+    /**
+     * Part price text field.
+     */
     @FXML
     private TextField partPriceText;
 
-    /** The maximum level text field.*/
+    /**
+     * Maximum text field.
+     */
     @FXML
     private TextField partMaxText;
 
-    /** The machine ID/company name text field.*/
+    /**
+     * Machine ID/company name text field.
+     */
     @FXML
     private TextField partIdNameText;
 
-    /** The minimum level text field.*/
+    /**
+     * Minimum text field.
+     */
     @FXML
     private TextField partMinText;
 
+
+    /**
+     * Confirmation dialog and MainScreenController loader.
+     * @param event Cancel button action.
+     * @throws IOException From FXMLLoader.
+     */
     @FXML
     void onActionCancelModifyParts(ActionEvent event) throws IOException{
-        /** Displays confirmation dialog and loads MainScreenController.
-        * @param event Cancel button action.
-        * @throws IOException From FXMLLoader.*/
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("CONFIRMATION");
-        alert.setContentText("Changes will not be saved. Do you want to return to the main screen?");
+        alert.setContentText("Do you want to return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -85,28 +113,37 @@ public class ModifyPartScreenController implements Initializable {
         }
     }
 
+
+    /**
+     * Set machine ID/company name label to "Machine ID".
+     * @param event In-house radio button action.
+     */
     @FXML
     void onActionInhouseRadio(ActionEvent event) {
-        /** Sets machine ID/company name label to "Machine ID".
-         * @param event In-house radio button action.*/
+
         partIdNameLabel.setText("Machine ID");
     }
 
 
+    /**
+     * Set machine ID/company name label to "Company Name".
+     * @param event Outsourced radio button.
+     */
     @FXML
     void onActionOutsourcedRadio(ActionEvent event) {
-        /** Sets machine ID/company name label to "Company Name".
-         * @param event Outsourced radio button.*/
+
         partIdNameLabel.setText("Company Name");
     }
 
 
+    /**
+     * Modify part in inventory and load MainScreenController.
+     * Text fields are checked.
+     * Display error messages preventing empty and/or invalid values.
+     * @param event Save button action.
+     * @throws IOException From FXMLLoader.*/
     @FXML
     void onActionSaveModifyParts(ActionEvent event)  {
-         /** Replaces part in inventory and loads MainScreenController.
-         * Text fields are validated with error messages displayed preventing empty and/or invalid values.
-         * @param event Save button action.
-         * @throws IOException From FXMLLoader.*/
 
         try {
             int id = selectedPart.getId();
@@ -137,11 +174,19 @@ public class ModifyPartScreenController implements Initializable {
                 }
 
                 if (outsourcedRadioButton.isSelected()) {
+                    try{
                     companyName = partIdNameText.getText();
                     OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
                             companyName);
                     Inventory.addPart(newOutsourcedPart);
                     partAdded = true;
+                    }
+                    catch (Exception e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("ERROR");
+                        alert.setContentText("Please enter valid company name.");
+                        Optional<ButtonType> result = alert.showAndWait();
+                    }
                 }
 
                 if (partAdded) {
@@ -158,14 +203,20 @@ public class ModifyPartScreenController implements Initializable {
         }
     }
 
-    /** The part object selected in the MainScreenController.*/
+
+    /**
+     * Part selected in MainScreenController.
+     */
     private Part selectedPart;
 
 
+    /**
+     * Load MainScreenController.
+     * @param event Passed from parent method.
+     * @throws IOException From FXMLLoader.
+     */
     private void returnToMainScreen(ActionEvent event) throws IOException {
-        /** Loads MainScreenController.
-         * @param event Passed from parent method.
-         * @throws IOException From FXMLLoader.*/
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
         stage.setScene(new Scene(scene));
@@ -173,11 +224,14 @@ public class ModifyPartScreenController implements Initializable {
     }
 
 
+    /**
+     * Confirm that min is greater than zero and less than max.
+     * @param min Minimum value for the part.
+     * @param max Maximum value for the part.
+     * @return Boolean indicating if min is valid.
+     */
     private boolean minValid(int min, int max) {
-        /** Validates that min is greater than 0 and less than max.
-         * @param min The minimum value for the part.
-         * @param max The maximum value for the part.
-         * @return Boolean indicating if min is valid.*/
+
         boolean isValid = true;
 
         if (min <= 0 || min >= max) {
@@ -185,17 +239,21 @@ public class ModifyPartScreenController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setContentText("Minimum must be greater than or equal to zero, or less than Maximum.");
-            alert.showAndWait();        }
+            alert.showAndWait();
+        }
         return isValid;
     }
 
 
+    /**
+     * Confirm that inventory is equal to or between min and max.
+     * @param min Minimum value for the part.
+     * @param max Maximum value for the part.
+     * @param stock The inventory for the part.
+     * @return Boolean indicating if inventory is valid.
+     */
     private boolean inventoryValid(int min, int max, int stock) {
-        /** Validates that inventory level is equal too or between min and max.
-         * @param min The minimum value for the part.
-         * @param max The maximum value for the part.
-         * @param stock The inventory level for the part.
-         * @return Boolean indicating if inventory is valid.*/
+
         boolean isValid = true;
 
         if (stock < min || stock > max) {
@@ -203,16 +261,20 @@ public class ModifyPartScreenController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setContentText("Inventory must be between the minimum or maximum value.");
-            alert.showAndWait();        }
+            alert.showAndWait();
+        }
         return isValid;
     }
 
 
+    /**
+     * Initialize controller and populate text fields with selected parts in MainScreenController.
+     * @param location Location used to resolve relative paths for the root object, or null for unknown location.
+     * @param resources Resources used to localize the root object, or null for un localized root object.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /**Initializes controller and populates text fields with part selected in MainScreenController.
-         * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
-         * @param resources The resources used to localize the root object, or null if the root object was not localized.*/
+
         selectedPart = MainScreenController.getPartToModify();
 
         if (selectedPart instanceof InhousePart) {
@@ -233,5 +295,6 @@ public class ModifyPartScreenController implements Initializable {
         partPriceText.setText(String.valueOf(selectedPart.getPrice()));
         partMaxText.setText(String.valueOf(selectedPart.getMax()));
         partMinText.setText(String.valueOf(selectedPart.getMin()));
+
     }
 }

@@ -18,66 +18,93 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/**Class AddPartScreenController.java*/
-/** @author Jieun Park*/
+/**
+ * Class AddPartScreenController.java
+ @author Jieun Park
+ */
 
 public class AddPartScreenController implements Initializable {
     Stage stage;
     Parent scene;
 
-    /** Inhouse radio button.*/
+    /**
+     * Inhouse radio button.
+     */
     @FXML
     private RadioButton inhouseRadioButton;
 
-    /** Part toggle group radio button.*/
+    /**
+     * Part toggle group radio button.
+     */
     @FXML
     private ToggleGroup partTypeTG;
 
-    /** Outsourced radio button.*/
+    /**
+     * Outsourced radio button.
+     */
     @FXML
     private RadioButton outsourcedRadioButton;
 
-    /** Part ID text field.*/
+    /**
+     * Part ID text field
+     */
     @FXML
     private TextField partIdText;
 
-    /** Part name text field.*/
+    /**
+     * Part name text field.
+     */
     @FXML
     private TextField partNameText;
 
-    /** Part inventory text field.*/
+    /**
+     * Part inventory text field.
+     */
     @FXML
     private TextField partInventoryText;
 
-    /** Part price text field.*/
+    /**
+     * Part price text field.
+     */
     @FXML
     private TextField partPriceText;
 
-    /** Part maximum level text field.*/
+    /**
+     * Part maximum text field.
+     */
     @FXML
     private TextField partMaxText;
 
-    /** Part machine ID/company name text field.*/
+    /**
+     * Part machine ID/company name text field.
+     */
     @FXML
     private TextField partIdNameText;
 
-    /** Part minimum level text field.*/
+    /**
+     * Part minimum text field.
+     */
     @FXML
     private TextField partMinText;
 
-    /** Part machine ID/company name label field.*/
+    /**
+     * Part machine ID/company name label field.
+     */
     @FXML
     private Label partIdNameLabel;
 
+
+    /**
+     * Confirmation dialog and MainScreenController loader.
+     * @param event Cancel button action.
+     * @throws IOException From FXMLLoader.
+     */
     @FXML
     void onActionCancelAddParts(ActionEvent event) throws IOException {
-        /**Displays confirmation dialog and loads MainScreenController.
-         * @param event Cancel button action.
-         * @throws IOException From FXMLLoader.*/
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("CONFIRMATION");
-        alert.setContentText("Changes will not be saved. Do you want to return to the main screen?");
+        alert.setContentText("Do you want to return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -85,27 +112,38 @@ public class AddPartScreenController implements Initializable {
         }
     }
 
+
+    /**
+     * Set machine ID/company name label to "Machine ID".
+     * @param event In-house radio button action.
+     */
     @FXML
     void onActionInhouseRadio(ActionEvent event) {
-        /**Sets machine ID/company name label to "Machine ID".
-         * @param event In-house radio button action.*/
+
         partIdNameLabel.setText("Machine ID");
     }
 
+
+    /**
+     * Set machine ID/company name label to "Company Name".
+     * @param event Outsourced radio button.
+     */
     @FXML
     void onActionOutsourcedRadio(ActionEvent event) {
-        /**Sets machine ID/company name label to "Company Name".
-         * @param event Outsourced radio button.*/
+
         partIdNameLabel.setText("Company Name");
     }
 
+
+    /**
+     * Save new part to inventory and load MainScreenController.
+     * Text fields are checked.
+     * Display error messages preventing empty and/or invalid values.
+     * @param event Save button action.
+     * @throws IOException From FXMLLoader.
+     */
     @FXML
     void onActionSaveAddParts(ActionEvent event) throws IOException {
-
-        /**Adds new part to inventory and loads MainScreenController.
-         * Text fields are validated with error messages displayed preventing empty and/or invalid values.
-         * @param event Save button action.
-         * @throws IOException From FXMLLoader.*/
 
         try {
             int id = Integer.parseInt(partIdText.getText());
@@ -145,11 +183,18 @@ public class AddPartScreenController implements Initializable {
                         }
                     }
                     if (outsourcedRadioButton.isSelected()) {
+                        try {
                             companyName = partIdNameText.getText();
                             OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max, companyName);
                             newOutsourcedPart.setId(Inventory.getNewPartId());
                             Inventory.addPart(newOutsourcedPart);
                             partAdded = true;
+                        } catch (Exception e) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("ERROR");
+                            alert.setContentText("Please enter valid company name.");
+                            alert.showAndWait();
+                        }
                     }
 
                     if (partAdded) {
@@ -157,7 +202,8 @@ public class AddPartScreenController implements Initializable {
                     }
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setContentText("Invalid value or Empty field. Please enter valid data.");
@@ -165,10 +211,14 @@ public class AddPartScreenController implements Initializable {
         }
     }
 
+
+    /**
+     * Load MainScreenController.
+     * @param event Passed from parent method.
+     * @throws IOException From FXMLLoader.
+     */
     private void returnToMainScreen(ActionEvent event) throws IOException {
-        /**Loads MainScreenController.
-         * @param event Passed from parent method.
-         * @throws java.io.IOException From FXMLLoader.*/
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
         stage.setScene(new Scene(scene));
@@ -176,32 +226,38 @@ public class AddPartScreenController implements Initializable {
     }
 
 
+    /**
+     * Confirm that min is greater than zero and less than max.
+     * @param min Minimum value for the part.
+     * @param max Maximum value for the part.
+     * @return Boolean indicating if min is valid.
+     */
     private boolean minValid(int min, int max) {
-        /** Validates that min is greater than 0 and less than max.
-         * @param min The minimum value for the part.
-         * @param max The maximum value for the part.
-         * @return Boolean indicating if min is valid.*/
 
         boolean isValid = true;
+
         if (min <= 0 || min >= max) {
             isValid = false;
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setContentText("Invalid number. Minimum cannot be larger than maximum value.");
+            alert.setContentText("Invalid number. Minimum cannot be greater than maximum value.");
             alert.showAndWait();
         }
         return isValid;
     }
 
 
+    /**
+     * Confirm that inventory is equal to or between min and max.
+     * @param min Minimum value for the part.
+     * @param max Maximum value for the part.
+     * @param stock The inventory for the part.
+     * @return Boolean indicating if inventory is valid.
+     */
     private boolean inventoryValid(int min, int max, int stock) {
-        /** Validates that inventory level is equal too or between min and max.
-         * @param min   The minimum value for the part.
-         * @param max   The maximum value for the part.
-         * @param stock The inventory level for the part.
-         * @return Boolean indicating if inventory is valid.*/
 
         boolean isValid = true;
+
         if (stock < min || stock > max) {
             isValid = false;
             Alert alert = new Alert(Alert.AlertType.WARNING);
