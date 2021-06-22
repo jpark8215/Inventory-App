@@ -109,7 +109,7 @@ public class MainScreenController implements Initializable{
 
     /**
      * Load AddPartController.
-     * @param event Add button action.
+     @param event Add button action.
      */
     @FXML
     void onActionAddParts(ActionEvent event) throws IOException {
@@ -122,7 +122,7 @@ public class MainScreenController implements Initializable{
 
 
     /** Load AddProductController.
-     * @param event Add button action.
+     @param event Add button action.
      */
     @FXML
     void onActionAddProducts(ActionEvent event) throws IOException {
@@ -138,7 +138,7 @@ public class MainScreenController implements Initializable{
      * Delete the part selected in the part table.
      * Confirmation dialog to remove selected part from associated part table.
      * Display error message when part is not selected.
-     * @param event Part delete button action.
+     @param event Part delete button action.
      */
     @FXML
     void onActionDeleteParts(ActionEvent event) {
@@ -168,7 +168,7 @@ public class MainScreenController implements Initializable{
      * Delete the product selected in the part table.
      * Confirmation dialog to remove selected part from associated product table.
      * Display error message when product is not selected.
-     * @param event Product delete button action.
+     @param event Product delete button action.
      */
     @FXML
     void onActionDeleteProducts(ActionEvent event) {
@@ -196,7 +196,7 @@ public class MainScreenController implements Initializable{
 
     /**
      * Exit the program.
-     * @param event Exit button action.
+     @param event Exit button action.
      */
     @FXML
     void onActionExit(ActionEvent event) {
@@ -204,6 +204,7 @@ public class MainScreenController implements Initializable{
         System.exit(0);
 
     }
+
 
     /**
      * Loads the ModifyPartController.
@@ -264,7 +265,7 @@ public class MainScreenController implements Initializable{
     /**
      * Search the value in the search text field and renew the part table view with search result.
      * Part can be searched by ID or name.
-     * @param event Part search button action.
+     @param event Part search button action.
      */
     @FXML
     void onActionSearchParts(ActionEvent event) {
@@ -293,7 +294,7 @@ public class MainScreenController implements Initializable{
     /**
      * Search the value in the search text field and renew the product table view with search result.
      * Product can be searched by ID or name.
-     * @param event Product search button action.
+     @param event Product search button action.
      */
     @FXML
     void onActionSearchProducts(ActionEvent event) {
@@ -321,7 +322,7 @@ public class MainScreenController implements Initializable{
 
     /**
      * Renew part table to show all parts when part search text field is empty.
-     * @param event Part search text field key pressed.
+     @param event Part search text field key pressed.
      */
     @FXML
     void partSearchTextKeyPressed(KeyEvent event) {
@@ -334,7 +335,7 @@ public class MainScreenController implements Initializable{
 
     /**
      * Renew product table to show all products when product search text field is empty.
-     * @param event Product search text field key pressed.
+     @param event Product search text field key pressed.
      */
     @FXML
     void productSearchTextKeyPressed(KeyEvent event) {
@@ -352,7 +353,7 @@ public class MainScreenController implements Initializable{
     private static Part partToModify;
     /**
      * Load the selected part in the part table.
-     * @return A part to modify.
+     @return A part to modify.
      */
     public static Part getPartToModify() {
         return partToModify;
@@ -365,7 +366,7 @@ public class MainScreenController implements Initializable{
     private static Product productToModify;
     /**
      * Load the selected product in the product table.
-     * @return A product to modify.
+     @return A product to modify.
      */
     public static Product getProductToModify() {
         return productToModify;

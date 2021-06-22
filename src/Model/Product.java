@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 
 public class Product {
 
-    private ObservableList<Part> associatedPart = FXCollections.observableArrayList();
+    private static final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;
@@ -46,7 +46,7 @@ public class Product {
     }
 
     /**
-     @param id the ID to set
+     @param id The ID to set
      */
     public void setId(int id) { this.id = id; }
 
@@ -58,7 +58,7 @@ public class Product {
     }
 
     /**
-     @param name the name to set
+     @param name The name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -70,7 +70,7 @@ public class Product {
     public double getPrice() { return price; }
 
     /**
-     @param price the price to set
+     @param price The price to set
      */
     public void setPrice(double price) {
         this.price = price;
@@ -91,28 +91,28 @@ public class Product {
     }
 
     /**
-     * Return the min
+     * Return the minimum
      */
     public int getMin() {
         return min;
     }
 
     /**
-     @param min the min to set
+     @param min The minimum to set
      */
     public void setMin(int min) {
         this.min = min;
     }
 
     /**
-     * Return the max
+     * Return the maximum
      */
     public int getMax() {
         return max;
     }
 
     /**
-     @param max the max to set
+     @param max The maximum to set
      */
     public void setMax(int max) {
         this.max = max;
@@ -121,7 +121,7 @@ public class Product {
 
     /**
      * Add a part to the associated part list for product.
-     @param part part to add
+     @param part The part to add
      */
     public void  addAssociatedPart(Part part) {
         associatedPart.add(part);
@@ -131,7 +131,7 @@ public class Product {
     /**
      * Delete a part from the associated part list for product.
      @param selectedAssociatedPart The part to delete
-     @return a boolean status of part deletion
+     @return A boolean status of part deletion
      */
     public boolean deleteAssociatedPart(Part selectedAssociatedPart) {
         if (associatedPart.contains(selectedAssociatedPart)) {
@@ -144,9 +144,9 @@ public class Product {
 
 
     /**
-     * Get list of associated parts for product.
-     @return a list of parts
+     * Get a list of associated parts for product.
+     @return A list of parts
      */
-    public ObservableList<Part> getAllAssociatedParts() {return associatedPart;}
+    public ObservableList<Part> getAllAssociatedPart() {return associatedPart;}
 
 }

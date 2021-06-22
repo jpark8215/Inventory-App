@@ -33,7 +33,7 @@ public class AddProductScreenController implements Initializable {
     /**
      * List of parts associated with the product.
      */
-    private ObservableList<Part> associatedPart = FXCollections.observableArrayList();
+    private final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
 
 
     /**
@@ -140,7 +140,7 @@ public class AddProductScreenController implements Initializable {
     /**
      * Add part selected in the all parts table to the associated parts table.
      * Display error message when part is not selected.
-     * @param event Add button action.
+     @param event Add button action.
      * */
     @FXML
     void onActionAddParts(ActionEvent event) {
@@ -162,8 +162,7 @@ public class AddProductScreenController implements Initializable {
 
     /**
      * Confirmation dialog and MainScreenController loader.
-     * @param event Cancel button action.
-     * @throws IOException From FXMLLoader.
+     @param event Cancel button action.
      */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
@@ -182,7 +181,7 @@ public class AddProductScreenController implements Initializable {
     /**
      * Confirmation dialog to remove selected part from associated parts table.
      * Display error message when part is not selected.
-     * @param event Remove button action.
+     @param event Remove button action.
      */
     @FXML
     void onActionRemoveAssociatedParts(ActionEvent event) {
@@ -213,8 +212,7 @@ public class AddProductScreenController implements Initializable {
      * Save new product to inventory and load MainScreenController.
      * Text fields are checked.
      * Display error messages preventing empty and/or invalid values.
-     * @param event Save button action.
-     * @throws IOException From FXMLLoader.
+     @param event Save button action.
      */
     @FXML
     void onActionSave(ActionEvent event) {
@@ -261,7 +259,7 @@ public class AddProductScreenController implements Initializable {
     /**
      * Search the value in the search text field and renew the part table view with search result.
      * Part can be searched by ID or name.
-     * @param event Part search button action.
+     @param event Part search button action.
      */
     @FXML
     void onActionSearchParts(ActionEvent event) {
@@ -288,7 +286,7 @@ public class AddProductScreenController implements Initializable {
 
     /**
      * Renew part table to show all parts when part search text field is empty.
-     * @param event Parts search text field key pressed.
+     @param event Parts search text field key pressed.
      */
     @FXML
     void partSearchKeyPressed(KeyEvent event) {
@@ -301,8 +299,7 @@ public class AddProductScreenController implements Initializable {
 
     /**
      * Load MainScreenController.
-     * @param event Passed from parent method.
-     * @throws IOException From FXMLLoader.
+     @param event Passed from parent method.
      */
     private void returnToMainScreen(ActionEvent event) throws IOException {
 
@@ -315,9 +312,9 @@ public class AddProductScreenController implements Initializable {
 
     /**
      * Confirm that min is greater than zero and less than max.
-     * @param min Minimum value for the part.
-     * @param max Maximum value for the part.
-     * @return Boolean indicating if min is valid.
+     @param min Minimum value for the part.
+     @param max Maximum value for the part.
+     @return Boolean indicating if min is valid.
      */
     private boolean minValid(int min, int max) {
 
@@ -336,10 +333,10 @@ public class AddProductScreenController implements Initializable {
 
     /**
      * Confirm that inventory is equal to or between min and max.
-     * @param min Minimum value for the part.
-     * @param max Maximum value for the part.
-     * @param stock The inventory for the part.
-     * @return Boolean indicating if inventory is valid.
+     @param min Minimum value for the part.
+     @param max Maximum value for the part.
+     @param stock The inventory for the part.
+     @return Boolean indicating if inventory is valid.
      */
     private boolean inventoryValid(int min, int max, int stock) {
 
@@ -358,8 +355,8 @@ public class AddProductScreenController implements Initializable {
 
     /**
      * Initialize controller and populate table views.
-     * @param location Location used to resolve relative paths for the root object, or null for unknown location.
-     * @param resources Resources used to localize the root object, or null for un localized root object.
+     @param location Location used to resolve relative paths for the root object, or null for unknown location.
+     @param resources Resources used to localize the root object, or null for un localized root object.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {

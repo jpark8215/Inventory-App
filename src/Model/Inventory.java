@@ -3,33 +3,39 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Class Inventory.java
  @author Jieun Park
  */
 
-public class Inventory {
+public class Inventory<partId, partID> {
 
     /**
      * A list of all parts in the inventory.
      */
-    private static ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private static final ObservableList<Part> allParts = FXCollections.observableArrayList();
 
 
     /**
      * A list of all products in the inventory.
      */
-    private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
+    private static final ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
 
 //TO DO : Generate auto increment ids
     /**
      * Get a new part ID.
-     @return A unique part ID.
+     * Return a unique part ID.
      */
-    private static int partId = 0;
-    public static int getNewPartId() {return ++partId;}
 
+    private static final AtomicInteger count = new AtomicInteger(0);
+    int NewPartID = count.incrementAndGet();
+    public static int getNewPartId() {return getNewPartId();}
+
+    // private static int partId = 0;
+    // public static int getNewPartId() {return partID;}
 
     /**
      * Add a part to the inventory.
@@ -43,7 +49,7 @@ public class Inventory {
 //TO DO : Generate auto increment ids
     /**
      * Get a new product ID.
-     @Return A unique product ID.
+     * Return a unique product ID.
      */
     private static int productId = 0;
     public static int getNewProductId() {return ++productId;}
@@ -136,6 +142,20 @@ public class Inventory {
         allParts.set(index, selectedPart);
     }
 
+    /*
+    public boolean updatePart (int partId, Part selectedPart) {
+        int index = -1;
+        for(Part part : Inventory.getAllParts()){
+            index++;
+
+            //Compare id in the index parameter
+            if(part.getId() == partId){
+                Inventory.getAllParts().set(index, part);
+                return true;
+            }
+        }
+        return false;
+*/
 
     /**
      * Update a product in the list of products.

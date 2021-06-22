@@ -39,7 +39,7 @@ public abstract class Part {
     }
 
     /**
-     @param id the ID to set
+     @param id The ID to set
      */
     public void setId(int id) {
         this.id = id;
@@ -53,7 +53,7 @@ public abstract class Part {
     }
 
     /**
-     @param name the name to set
+     @param name The name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -67,7 +67,7 @@ public abstract class Part {
     }
 
     /**
-     @param price the price to set
+     @param price The price to set
      */
     public void setPrice(double price) {
         this.price = price;
@@ -81,7 +81,7 @@ public abstract class Part {
     }
 
     /**
-     @param stock the stock to set
+     @param stock The stock to set
      */
     public void setStock(int stock) {
         this.stock = stock;
@@ -95,7 +95,7 @@ public abstract class Part {
     }
 
     /**
-     @param min the minimum to set
+     @param min The minimum to set
      */
     public void setMin(int min) {
         this.min = min;
@@ -109,9 +109,10 @@ public abstract class Part {
     }
 
     /**
-     @param max the maximum to set
+     @param max The maximum to set
      */
     public void setMax(int max) {
         this.max = max;
     }
+
 }

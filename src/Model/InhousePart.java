@@ -16,7 +16,7 @@ public class InhousePart extends Part{
      @param stock Initialize inventory object
      @param min Initialize minimum object
      @param max Initialize maximum object
-     @param machineId Initialize machineID object
+     @param machineId Initialize machine ID object
      */
     public InhousePart(int id, String name, double price, int stock, int min, int max, int machineId) {
         super(id, name, price, stock, min, max);
@@ -24,14 +24,14 @@ public class InhousePart extends Part{
     }
 
     /**
-     @return the machineId
+     @return The machine ID
      */
     public int getMachineId() {
         return machineId;
     }
 
     /**
-     @param machineId the machineId to set
+     @param machineId The machine ID to set
      */
     public void setMachineId(int machineId) {
         this.machineId = machineId;

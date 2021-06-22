@@ -17,7 +17,7 @@ public class OutsourcedPart extends Part {
      @param stock Initialize inventory object
      @param min Initialize minimum object
      @param max Initialize maximum object
-     @param companyName  Initialize company name object
+     @param companyName Initialize company name object
      */
     public OutsourcedPart(int id, String name, double price, int stock, int min, int max, String companyName) {
         super(id, name, price, stock, min, max);
@@ -26,14 +26,14 @@ public class OutsourcedPart extends Part {
     }
 
     /**
-     * Return the companyName
+     * Return the company name
      */
     public String getCompanyName() {
         return companyName;
     }
 
     /**
-     @param companyName the companyName to set
+     @param companyName The company name to set
      */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;

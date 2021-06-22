@@ -35,7 +35,7 @@ public class ModifyPartScreenController implements Initializable {
     private Label partIdNameLabel;
 
     /**
-     * In-house radio button.
+     * Inhouse radio button.
      */
     @FXML
     private RadioButton inhouseRadioButton;
@@ -97,8 +97,7 @@ public class ModifyPartScreenController implements Initializable {
 
     /**
      * Confirmation dialog and MainScreenController loader.
-     * @param event Cancel button action.
-     * @throws IOException From FXMLLoader.
+     @param event Cancel button action.
      */
     @FXML
     void onActionCancelModifyParts(ActionEvent event) throws IOException{
@@ -116,7 +115,7 @@ public class ModifyPartScreenController implements Initializable {
 
     /**
      * Set machine ID/company name label to "Machine ID".
-     * @param event In-house radio button action.
+     @param event Inhouse radio button action.
      */
     @FXML
     void onActionInhouseRadio(ActionEvent event) {
@@ -127,7 +126,7 @@ public class ModifyPartScreenController implements Initializable {
 
     /**
      * Set machine ID/company name label to "Company Name".
-     * @param event Outsourced radio button.
+     @param event Outsourced radio button.
      */
     @FXML
     void onActionOutsourcedRadio(ActionEvent event) {
@@ -140,8 +139,8 @@ public class ModifyPartScreenController implements Initializable {
      * Modify part in inventory and load MainScreenController.
      * Text fields are checked.
      * Display error messages preventing empty and/or invalid values.
-     * @param event Save button action.
-     * @throws IOException From FXMLLoader.*/
+     @param event Save button action.
+     */
     @FXML
     void onActionSaveModifyParts(ActionEvent event)  {
 
@@ -212,8 +211,7 @@ public class ModifyPartScreenController implements Initializable {
 
     /**
      * Load MainScreenController.
-     * @param event Passed from parent method.
-     * @throws IOException From FXMLLoader.
+     @param event Passed from parent method.
      */
     private void returnToMainScreen(ActionEvent event) throws IOException {
 
@@ -226,9 +224,9 @@ public class ModifyPartScreenController implements Initializable {
 
     /**
      * Confirm that min is greater than zero and less than max.
-     * @param min Minimum value for the part.
-     * @param max Maximum value for the part.
-     * @return Boolean indicating if min is valid.
+     @param min Minimum value for the part.
+     @param max Maximum value for the part.
+     @return Boolean indicating if min is valid.
      */
     private boolean minValid(int min, int max) {
 
@@ -247,10 +245,10 @@ public class ModifyPartScreenController implements Initializable {
 
     /**
      * Confirm that inventory is equal to or between min and max.
-     * @param min Minimum value for the part.
-     * @param max Maximum value for the part.
-     * @param stock The inventory for the part.
-     * @return Boolean indicating if inventory is valid.
+     @param min Minimum value for the part.
+     @param max Maximum value for the part.
+     @param stock The inventory for the part.
+     @return Boolean indicating if inventory is valid.
      */
     private boolean inventoryValid(int min, int max, int stock) {
 
@@ -269,8 +267,8 @@ public class ModifyPartScreenController implements Initializable {
 
     /**
      * Initialize controller and populate text fields with selected parts in MainScreenController.
-     * @param location Location used to resolve relative paths for the root object, or null for unknown location.
-     * @param resources Resources used to localize the root object, or null for un localized root object.
+     @param location Location used to resolve relative paths for the root object, or null for unknown location.
+     @param resources Resources used to localize the root object, or null for un localized root object.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {

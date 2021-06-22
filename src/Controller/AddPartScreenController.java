@@ -100,7 +100,7 @@ public class AddPartScreenController implements Initializable {
      @throws IOException From FXMLLoader.
      */
     @FXML
-    void onActionCancelAddParts(ActionEvent event) throws IOException {
+     void onActionCancelAddParts(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("CONFIRMATION");
@@ -189,7 +189,8 @@ public class AddPartScreenController implements Initializable {
                             newOutsourcedPart.setId(Inventory.getNewPartId());
                             Inventory.addPart(newOutsourcedPart);
                             partAdded = true;
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e) {
                             Alert alert = new Alert(Alert.AlertType.ERROR);
                             alert.setTitle("ERROR");
                             alert.setContentText("Please enter valid company name.");

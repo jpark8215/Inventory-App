@@ -29,7 +29,7 @@ public class Main extends Application {
     public static void main(String[] args) {
 
         /**
-         * Add sample part.
+         * Add sample parts.
          */
         InhousePart breaks = new InhousePart(1,"Breaks", 15.00, 10, 1, 20,0);
         InhousePart wheel = new InhousePart(2,"Wheel", 11.00, 16, 1, 20,0);
@@ -40,7 +40,7 @@ public class Main extends Application {
         Inventory.addPart(seat);
 
         /**
-         * Add sample product.
+         * Add sample products.
          */
         Product giantBike = new Product(1000, "Giant Bike",299.99, 5, 1, 100);
         Product tricycle = new Product(1001, "Tricycle",99.99, 3, 1, 100);
