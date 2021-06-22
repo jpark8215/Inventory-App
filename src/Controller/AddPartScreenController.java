@@ -96,8 +96,8 @@ public class AddPartScreenController implements Initializable {
 
     /**
      * Confirmation dialog and MainScreenController loader.
-     * @param event Cancel button action.
-     * @throws IOException From FXMLLoader.
+     @param event Cancel button action.
+     @throws IOException From FXMLLoader.
      */
     @FXML
     void onActionCancelAddParts(ActionEvent event) throws IOException {
@@ -115,7 +115,7 @@ public class AddPartScreenController implements Initializable {
 
     /**
      * Set machine ID/company name label to "Machine ID".
-     * @param event In-house radio button action.
+     @param event In-house radio button action.
      */
     @FXML
     void onActionInhouseRadio(ActionEvent event) {
@@ -126,7 +126,7 @@ public class AddPartScreenController implements Initializable {
 
     /**
      * Set machine ID/company name label to "Company Name".
-     * @param event Outsourced radio button.
+     @param event Outsourced radio button.
      */
     @FXML
     void onActionOutsourcedRadio(ActionEvent event) {
@@ -139,8 +139,8 @@ public class AddPartScreenController implements Initializable {
      * Save new part to inventory and load MainScreenController.
      * Text fields are checked.
      * Display error messages preventing empty and/or invalid values.
-     * @param event Save button action.
-     * @throws IOException From FXMLLoader.
+     @param event Save button action.
+     @throws IOException From FXMLLoader.
      */
     @FXML
     void onActionSaveAddParts(ActionEvent event) throws IOException {
@@ -214,8 +214,8 @@ public class AddPartScreenController implements Initializable {
 
     /**
      * Load MainScreenController.
-     * @param event Passed from parent method.
-     * @throws IOException From FXMLLoader.
+     @param event Passed from parent method.
+     @throws IOException From FXMLLoader.
      */
     private void returnToMainScreen(ActionEvent event) throws IOException {
 
@@ -228,9 +228,9 @@ public class AddPartScreenController implements Initializable {
 
     /**
      * Confirm that min is greater than zero and less than max.
-     * @param min Minimum value for the part.
-     * @param max Maximum value for the part.
-     * @return Boolean indicating if min is valid.
+     @param min Minimum value for the part.
+     @param max Maximum value for the part.
+     @return Boolean indicating if min is valid.
      */
     private boolean minValid(int min, int max) {
 

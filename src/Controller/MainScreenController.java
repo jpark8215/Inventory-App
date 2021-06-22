@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
- * Class InhousePart.java
+ * Class MainScreenController.java
  @author Jieun Pakr
  */
 
@@ -352,7 +352,7 @@ public class MainScreenController implements Initializable{
     private static Part partToModify;
     /**
      * Load the selected part in the part table.
-     * @return A part.
+     * @return A part to modify.
      */
     public static Part getPartToModify() {
         return partToModify;
@@ -365,7 +365,7 @@ public class MainScreenController implements Initializable{
     private static Product productToModify;
     /**
      * Load the selected product in the product table.
-     * @return A product.
+     * @return A product to modify.
      */
     public static Product getProductToModify() {
         return productToModify;
@@ -392,7 +392,7 @@ public class MainScreenController implements Initializable{
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
+
     }
 }
 

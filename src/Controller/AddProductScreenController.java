@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
- * Class InhousePart.java
+ * Class AddProductScreenPart.java
  @author Jieun Park
  */
 

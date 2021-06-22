@@ -9,8 +9,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Class Main.java
+ @author Jieun Park
+ */
+
 public class Main extends Application {
-    /**Open main screen.*/
+    /**
+     * Open main screen.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));

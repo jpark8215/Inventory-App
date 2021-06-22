@@ -175,11 +175,11 @@ public class ModifyPartScreenController implements Initializable {
 
                 if (outsourcedRadioButton.isSelected()) {
                     try{
-                    companyName = partIdNameText.getText();
-                    OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
-                            companyName);
-                    Inventory.addPart(newOutsourcedPart);
-                    partAdded = true;
+                        companyName = partIdNameText.getText();
+                        OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
+                                companyName);
+                        Inventory.addPart(newOutsourcedPart);
+                        partAdded = true;
                     }
                     catch (Exception e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
