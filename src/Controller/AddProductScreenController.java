@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -269,7 +270,7 @@ public class AddProductScreenController implements Initializable {
         String searchString = partSearchText.getText();
 
         for (Part part : allParts) {
-            if (String.valueOf(part.getId()).contains(searchString) || part.getName().contains(searchString)) {
+            if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
                 partFound.add(part);
             }
         }

@@ -18,13 +18,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * Class MainScreenController.java
- @author Jieun Pakr
+ @author Jieun Park
  */
 
 public class MainScreenController implements Initializable{
@@ -275,7 +277,7 @@ public class MainScreenController implements Initializable{
         String searchString = partSearchText.getText();
 
         for (Part part : allParts) {
-            if (String.valueOf(part.getId()).contains(searchString) || part.getName().contains(searchString)) {
+            if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
                 partFound.add(part);
             }
         }
@@ -304,7 +306,7 @@ public class MainScreenController implements Initializable{
         String searchString = productSearchText.getText();
 
         for (Product product : allProducts) {
-            if (String.valueOf(product.getId()).contains(searchString) || product.getName().contains(searchString)) {
+            if (String.valueOf(product.getId()).contains(searchString) || product.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
                 productFound.add(product);
             }
         }

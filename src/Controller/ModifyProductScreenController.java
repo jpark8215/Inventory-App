@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -259,6 +260,7 @@ public class ModifyProductScreenController implements Initializable {
             alert.setContentText("Invalid value or Empty field. Please enter valid data.");
             Optional<ButtonType> result = alert.showAndWait();
         }
+
     }
 
 
@@ -275,7 +277,7 @@ public class ModifyProductScreenController implements Initializable {
         String searchString = partSearchText.getText();
 
         for (Part part : allParts) {
-            if (String.valueOf(part.getId()).contains(searchString) || part.getName().contains(searchString)) {
+            if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
                 partFound.add(part);
             }
         }
@@ -388,5 +390,6 @@ public class ModifyProductScreenController implements Initializable {
         productPriceText.setText(String.valueOf(selectedProduct.getPrice()));
         productMaxText.setText(String.valueOf(selectedProduct.getMax()));
         productMinText.setText(String.valueOf(selectedProduct.getMin()));
+
     }
 }

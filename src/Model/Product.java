@@ -3,6 +3,8 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
+
 /**
  * Class Product.java
  @author Jieun Park
@@ -10,7 +12,7 @@ import javafx.collections.ObservableList;
 
 public class Product {
 
-    private static final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
+    private static ObservableList<Part> associatedPart = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;
@@ -121,11 +123,9 @@ public class Product {
 
     /**
      * Add a part to the associated part list for product.
-     @param part The part to add
+     @param partToAdd The part to add
      */
-    public void  addAssociatedPart(Part part) {
-        associatedPart.add(part);
-    }
+    public void  addAssociatedPart(Part partToAdd) { associatedPart.add(partToAdd); }
 
 
     /**
@@ -149,4 +149,4 @@ public class Product {
      */
     public ObservableList<Part> getAllAssociatedPart() {return associatedPart;}
 
-}
+    }

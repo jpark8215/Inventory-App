@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
@@ -146,6 +147,13 @@ public class AddPartScreenController implements Initializable {
     void onActionSaveAddParts(ActionEvent event) throws IOException {
 
         try {
+            // Gets the current global ID for Parts
+            int partId = Inventory.getNewPartId();
+            // Increments the Part ID Count
+            int partIdIncremented = partId + 1;
+            // Setting incremented ID
+            Inventory.setPartId(partIdIncremented);
+
             int id = Integer.parseInt(partIdText.getText());
             String name = partNameText.getText();
             double price = Double.parseDouble(partPriceText.getText());
@@ -155,6 +163,7 @@ public class AddPartScreenController implements Initializable {
             int machineId;
             String companyName;
             boolean partAdded = false;
+           // Inventory.partId = id;
 
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -164,7 +173,8 @@ public class AddPartScreenController implements Initializable {
             }
 
             else {
-                if (minValid(min, max) && inventoryValid(min, max, stock)) {
+
+                while (minValid(min, max) && inventoryValid(min, max, stock)) {
 
                     if (inhouseRadioButton.isSelected()) {
                         try {
@@ -173,7 +183,6 @@ public class AddPartScreenController implements Initializable {
                             newInhousePart.setId(Inventory.getNewPartId());
                             Inventory.addPart(newInhousePart);
                             partAdded = true;
-
                         }
                         catch (Exception e) {
                             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -182,7 +191,8 @@ public class AddPartScreenController implements Initializable {
                             alert.showAndWait();
                         }
                     }
-                    if (outsourcedRadioButton.isSelected()) {
+
+                     if (outsourcedRadioButton.isSelected()) {
                         try {
                             companyName = partIdNameText.getText();
                             OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max, companyName);
@@ -272,6 +282,9 @@ public class AddPartScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //ID show up in the text field
+        // Inventory.partId += 1;
+        // partIdText.setText(String.valueOf(Inventory.partId));
 
     }
 }

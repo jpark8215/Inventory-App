@@ -3,6 +3,8 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Iterator;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -10,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  @author Jieun Park
  */
 
-public class Inventory<partId, partID> {
+public class Inventory {
 
     /**
      * A list of all parts in the inventory.
@@ -29,13 +31,17 @@ public class Inventory<partId, partID> {
      * Get a new part ID.
      * Return a unique part ID.
      */
-
+/*
     private static final AtomicInteger count = new AtomicInteger(0);
     int NewPartID = count.incrementAndGet();
     public static int getNewPartId() {return getNewPartId();}
+*/
+    //public static int partId = 3;
+    private static int partId = 0;
 
-    // private static int partId = 0;
-    // public static int getNewPartId() {return partID;}
+    public static int getNewPartId() {return partId;}
+//set partID to increment
+    public static void setPartId(int partId) { Inventory.partId = partId; }
 
     /**
      * Add a part to the inventory.
@@ -52,7 +58,8 @@ public class Inventory<partId, partID> {
      * Return a unique product ID.
      */
     private static int productId = 0;
-    public static int getNewProductId() {return ++productId;}
+
+    public static int getNewProductId() {return productId;}
 
 
     /**
@@ -98,39 +105,44 @@ public class Inventory<partId, partID> {
     }
 
 
-    //TO DO :  Look up the list of parts by name/ partial name/ case insensitive
     /**
      * Look up the list of parts by name.
      @param partName The part name.
      @return A list of parts found.
      */
     public static ObservableList<Part> lookupPart(String partName) {
-        ObservableList<Part> partFound = FXCollections.observableArrayList();
 
-        for (Part part : allParts) {
+        Iterator<Part> itr = allParts.listIterator();
+        ObservableList<Part> partFound = FXCollections.observableArrayList();
+        while (itr.hasNext()) {
+            Part part = itr.next();
             if (part.getName().equals(partName)) {
                 partFound.add(part);
+                return partFound;
             }
         }
-        return partFound;
+        return null;
     }
 
 
-    //TO DO :  Look up the list of parts by name/ partial name/ case insensitive
+    //TO DO :  Look up the list of parts by name case insensitive
     /**
      * Look up the list of products by name.
      @param productName The product name.
      @return A list of products found.
      */
     public static ObservableList<Product> lookupProduct(String productName) {
-        ObservableList<Product> productFound = FXCollections.observableArrayList();
 
-        for (Product product : allProducts) {
+        Iterator<Product> itr = allProducts.listIterator();
+        ObservableList<Product> productFound = FXCollections.observableArrayList();
+        while (itr.hasNext()) {
+            Product product = itr.next();
             if (product.getName().equals(productName)) {
                 productFound.add(product);
+                return productFound;
             }
         }
-        return productFound;
+        return null;
     }
 
 
@@ -138,10 +150,16 @@ public class Inventory<partId, partID> {
      @param index Index of the part to be replaced.
      @param selectedPart The part used for replacement.
      */
-    public static void updatePart (int index, Part selectedPart) {
-        allParts.set(index, selectedPart);
-    }
+    public static void updatePart (int index, Part selectedPart) { allParts.set(index, selectedPart);}
 
+    /*
+    public static void updatePart (Part selectedPart) {
+        for (int i = 0; i < allParts.size(); i++) {
+            if (allParts.get(i).getId() == selectedPart.getId()) {
+                allParts.set(i, selectedPart);
+            }
+        }
+    }
     /*
     public boolean updatePart (int partId, Part selectedPart) {
         int index = -1;
@@ -210,9 +228,7 @@ public class Inventory<partId, partID> {
      * Get a list of all products in the inventory.
      @return A list of products.
      */
-    public static ObservableList<Product> getAllProducts() {
-        return allProducts;
-    }
+    public static ObservableList<Product> getAllProducts() { return allProducts; }
 
 }
 
