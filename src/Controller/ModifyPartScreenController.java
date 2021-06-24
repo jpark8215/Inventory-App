@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -27,180 +26,6 @@ import java.util.ResourceBundle;
 public class ModifyPartScreenController implements Initializable {
     Stage stage;
     Parent scene;
-
-    /**
-     * Machine ID/company name label for the part.
-     */
-    @FXML
-    private Label partIdNameLabel;
-
-    /**
-     * Inhouse radio button.
-     */
-    @FXML
-    private RadioButton inhouseRadioButton;
-
-    /**
-     * Toggle group for the radio buttons.
-     */
-    @FXML
-    private ToggleGroup partTypeTG;
-
-    /**
-     * Outsourced radio button.
-     * */
-    @FXML
-    private RadioButton outsourcedRadioButton;
-
-    /**
-     * Part ID text field.
-     */
-    @FXML
-    private TextField partIdText;
-
-    /**
-     * Part name text field.
-     */
-    @FXML
-    private TextField partNameText;
-
-    /**
-     * Inventory text field.
-     */
-    @FXML
-    private TextField partInventoryText;
-
-    /**
-     * Part price text field.
-     */
-    @FXML
-    private TextField partPriceText;
-
-    /**
-     * Maximum text field.
-     */
-    @FXML
-    private TextField partMaxText;
-
-    /**
-     * Machine ID/company name text field.
-     */
-    @FXML
-    private TextField partIdNameText;
-
-    /**
-     * Minimum text field.
-     */
-    @FXML
-    private TextField partMinText;
-
-
-    /**
-     * Confirmation dialog and MainScreenController loader.
-     @param event Cancel button action.
-     */
-    @FXML
-    void onActionCancelModifyParts(ActionEvent event) throws IOException{
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("CONFIRMATION");
-        alert.setContentText("Do you want to return to the main screen?");
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            returnToMainScreen(event);
-        }
-    }
-
-
-    /**
-     * Set machine ID/company name label to "Machine ID".
-     @param event Inhouse radio button action.
-     */
-    @FXML
-    void onActionInhouseRadio(ActionEvent event) {
-
-        partIdNameLabel.setText("Machine ID");
-    }
-
-
-    /**
-     * Set machine ID/company name label to "Company Name".
-     @param event Outsourced radio button.
-     */
-    @FXML
-    void onActionOutsourcedRadio(ActionEvent event) {
-
-        partIdNameLabel.setText("Company Name");
-    }
-
-
-    /**
-     * Modify part in inventory and load MainScreenController.
-     * Text fields are checked.
-     * Display error messages preventing empty and/or invalid values.
-     @param event Save button action.
-     */
-    @FXML
-    void onActionSaveModifyParts(ActionEvent event)  {
-
-        try {
-            int id = selectedPart.getId();
-            String name = partNameText.getText();
-            double price = Double.parseDouble(partPriceText.getText());
-            int stock = Integer.parseInt(partInventoryText.getText());
-            int min = Integer.parseInt(partMinText.getText());
-            int max = Integer.parseInt(partMaxText.getText());
-            int machineId;
-            String companyName;
-            boolean partAdded = false;
-
-            if (minValid(min, max) && inventoryValid(min, max, stock)) {
-
-                if (inhouseRadioButton.isSelected()) {
-                    try {
-                        machineId = Integer.parseInt(partIdNameText.getText());
-                        InhousePart newInHousePart = new InhousePart(id, name, price, stock, min, max, machineId);
-                        Inventory.addPart(newInHousePart);
-                        partAdded = true;
-                    }
-                    catch (Exception e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("ERROR");
-                        alert.setContentText("Please enter valid machine ID number.");
-                        Optional<ButtonType> result = alert.showAndWait();
-                    }
-                }
-
-                if (outsourcedRadioButton.isSelected()) {
-                    try{
-                        companyName = partIdNameText.getText();
-                        OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
-                                companyName);
-                        Inventory.addPart(newOutsourcedPart);
-                        partAdded = true;
-                    }
-                    catch (Exception e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("ERROR");
-                        alert.setContentText("Please enter valid company name.");
-                        Optional<ButtonType> result = alert.showAndWait();
-                    }
-                }
-
-                if (partAdded) {
-                    Inventory.deletePart(selectedPart);
-                    returnToMainScreen(event);
-                }
-            }
-        }
-        catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("Invalid value or Empty field. Please enter valid data.");
-            Optional<ButtonType> result = alert.showAndWait();
-        }
-    }
 
 
     /**
@@ -266,6 +91,182 @@ public class ModifyPartScreenController implements Initializable {
 
 
     /**
+     * Machine ID/company name label for the part.
+     */
+    @FXML
+    private Label machineIdNameLabel;
+
+    /**
+     * Inhouse radio button.
+     */
+    @FXML
+    private RadioButton inhouseRadioButton;
+
+    /**
+     * Toggle group for the radio buttons.
+     */
+    @FXML
+    private ToggleGroup partTypeTG;
+
+    /**
+     * Outsourced radio button.
+     * */
+    @FXML
+    private RadioButton outsourcedRadioButton;
+
+    /**
+     * Part ID text field.
+     */
+    @FXML
+    private TextField partIdText;
+
+    /**
+     * Part name text field.
+     */
+    @FXML
+    private TextField partNameText;
+
+    /**
+     * Inventory text field.
+     */
+    @FXML
+    private TextField partInventoryText;
+
+    /**
+     * Part price text field.
+     */
+    @FXML
+    private TextField partPriceText;
+
+    /**
+     * Maximum text field.
+     */
+    @FXML
+    private TextField partMaxText;
+
+    /**
+     * Machine ID/company name text field.
+     */
+    @FXML
+    private TextField machineIdNameText;
+
+    /**
+     * Minimum text field.
+     */
+    @FXML
+    private TextField partMinText;
+
+
+    /**
+     * Confirmation dialog and MainScreenController loader.
+     @param event Cancel button action.
+     */
+    @FXML
+    void onActionCancelModifyParts(ActionEvent event) throws IOException{
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("CONFIRMATION");
+        alert.setContentText("Do you want to return to the main screen?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            returnToMainScreen(event);
+        }
+    }
+
+
+    /**
+     * Set machine ID/company name label to "Machine ID".
+     @param event Inhouse radio button action.
+     */
+    @FXML
+    void onActionInhouseRadio(ActionEvent event) {
+
+        machineIdNameLabel.setText("Machine ID");
+    }
+
+
+    /**
+     * Set machine ID/company name label to "Company Name".
+     @param event Outsourced radio button.
+     */
+    @FXML
+    void onActionOutsourcedRadio(ActionEvent event) {
+
+        machineIdNameLabel.setText("Company Name");
+    }
+
+
+    /**
+     * Modify part in inventory and load MainScreenController.
+     * Text fields are checked.
+     * Display error messages preventing empty and/or invalid values.
+     @param event Save button action.
+     */
+    @FXML
+    void onActionSaveModifyParts(ActionEvent event)  {
+
+        try {
+            int id = selectedPart.getId();
+            String name = partNameText.getText();
+            double price = Double.parseDouble(partPriceText.getText());
+            int stock = Integer.parseInt(partInventoryText.getText());
+            int min = Integer.parseInt(partMinText.getText());
+            int max = Integer.parseInt(partMaxText.getText());
+            int machineId;
+            String companyName;
+            boolean partAdded = false;
+
+            if (minValid(min, max) && inventoryValid(min, max, stock)) {
+
+                if (inhouseRadioButton.isSelected()) {
+                    try {
+                        machineId = Integer.parseInt(machineIdNameText.getText());
+                        InhousePart newInHousePart = new InhousePart(id, name, price, stock, min, max, machineId);
+                        Inventory.addPart(newInHousePart);
+                        partAdded = true;
+                    }
+                    catch (Exception e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("ERROR");
+                        alert.setContentText("Please enter valid machine ID number.");
+                        Optional<ButtonType> result = alert.showAndWait();
+                    }
+                }
+
+                if (outsourcedRadioButton.isSelected()) {
+                    try{
+                        companyName = machineIdNameText.getText();
+                        OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
+                                companyName);
+                        Inventory.addPart(newOutsourcedPart);
+                        partAdded = true;
+                    }
+                    catch (Exception e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("ERROR");
+                        alert.setContentText("Please enter valid company name.");
+                        Optional<ButtonType> result = alert.showAndWait();
+                    }
+                }
+
+                if (partAdded) {
+                    Inventory.deletePart(selectedPart);
+                    returnToMainScreen(event);
+                }
+            }
+        }
+        catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Invalid value or Empty field. Please enter valid data.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+    }
+
+
+
+    /**
      * Initialize controller and populate text fields with selected parts in MainScreenController.
      @param location Location used to resolve relative paths for the root object, or null for unknown location.
      @param resources Resources used to localize the root object, or null for un localized root object.
@@ -273,18 +274,20 @@ public class ModifyPartScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        inhouseRadioButton.setSelected(true);
+
         selectedPart = MainScreenController.getPartToModify();
 
         if (selectedPart instanceof InhousePart) {
             inhouseRadioButton.setSelected(true);
-            partIdNameLabel.setText("Machine ID");
-            partIdNameText.setText(String.valueOf(((InhousePart) selectedPart).getMachineId()));
+            machineIdNameLabel.setText("Machine ID");
+            machineIdNameText.setText(String.valueOf(((InhousePart) selectedPart).getMachineId()));
         }
 
         if (selectedPart instanceof OutsourcedPart){
             outsourcedRadioButton.setSelected(true);
-            partIdNameLabel.setText("Company Name");
-            partIdNameText.setText(((OutsourcedPart) selectedPart).getCompanyName());
+            machineIdNameLabel.setText("Company Name");
+            machineIdNameText.setText(((OutsourcedPart) selectedPart).getCompanyName());
         }
 
         partIdText.setText(String.valueOf(selectedPart.getId()));

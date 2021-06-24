@@ -31,6 +31,63 @@ public class ModifyProductScreenController implements Initializable {
     Stage stage;
     Parent scene;
 
+
+    /**
+     * Load MainScreenController.
+     @param event Passed from parent method.
+     */
+    private void returnToMainScreen(ActionEvent event) throws IOException {
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+
+    /**
+     * Confirm that min is greater than zero and less than max.
+     @param min Minimum value for the part.
+     @param max Maximum value for the part.
+     @return Boolean indicating if min is valid.
+     */
+    private boolean minValid(int min, int max) {
+
+        boolean isValid = true;
+
+        if (min <= 0 || min >= max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Invalid number. Minimum cannot be larger than maximum value.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+        return isValid;
+    }
+
+
+    /**
+     * Confirm that inventory is equal to or between min and max.
+     @param min Minimum value for the part.
+     @param max Maximum value for the part.
+     @param stock The inventory for the part.
+     @return Boolean indicating if inventory is valid.
+     */
+    private boolean inventoryValid(int min, int max, int stock) {
+
+        boolean isValid = true;
+
+        if (stock < min || stock > max) {
+            isValid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("The inventory is less than minimum or larger than maximum value.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+        return isValid;
+    }
+
+
     /**
      * Product selected in MainScreenController.
      */
@@ -178,7 +235,7 @@ public class ModifyProductScreenController implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("CONFIRMATION");
-        alert.setContentText("Changes will not be saved. Do you want to return to the main screen?");
+        alert.setContentText("Do you want to return to the main screen?");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -223,7 +280,7 @@ public class ModifyProductScreenController implements Initializable {
      @param event Save button action.
      */
     @FXML
-    void onActionSave (ActionEvent event) throws IOException {
+    void onActionSave (ActionEvent event) {
 
         try {
             int id = selectedProduct.getId();
@@ -302,62 +359,6 @@ public class ModifyProductScreenController implements Initializable {
         if (partSearchText.getText().isEmpty()) {
             partTableView.setItems(Inventory.getAllParts());
         }
-    }
-
-
-    /**
-     * Load MainScreenController.
-     @param event Passed from parent method.
-     */
-    private void returnToMainScreen(ActionEvent event) throws IOException {
-
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-    }
-
-
-    /**
-     * Confirm that min is greater than zero and less than max.
-     @param min Minimum value for the part.
-     @param max Maximum value for the part.
-     @return Boolean indicating if min is valid.
-     */
-    private boolean minValid(int min, int max) {
-
-        boolean isValid = true;
-
-        if (min <= 0 || min >= max) {
-            isValid = false;
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("Invalid number. Minimum cannot be larger than maximum value.");
-            Optional<ButtonType> result = alert.showAndWait();
-        }
-        return isValid;
-    }
-
-
-    /**
-     * Confirm that inventory is equal to or between min and max.
-     @param min Minimum value for the part.
-     @param max Maximum value for the part.
-     @param stock The inventory for the part.
-     @return Boolean indicating if inventory is valid.
-     */
-    private boolean inventoryValid(int min, int max, int stock) {
-
-        boolean isValid = true;
-
-        if (stock < min || stock > max) {
-            isValid = false;
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("The inventory is less than minimum or larger than maximum value.");
-            Optional<ButtonType> result = alert.showAndWait();
-        }
-        return isValid;
     }
 
 

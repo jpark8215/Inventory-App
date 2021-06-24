@@ -39,9 +39,10 @@ public class Inventory {
     //public static int partId = 3;
     private static int partId = 0;
 
-    public static int getNewPartId() {return partId;}
-//set partID to increment
-    public static void setPartId(int partId) { Inventory.partId = partId; }
+    public static int getNewPartId() {return ++partId;}
+
+    //set partID to increment
+    //public static void setPartId(int partId) { Inventory.partId = partId; }
 
     /**
      * Add a part to the inventory.
@@ -59,7 +60,7 @@ public class Inventory {
      */
     private static int productId = 0;
 
-    public static int getNewProductId() {return productId;}
+    public static int getNewProductId() {return ++productId;}
 
 
     /**

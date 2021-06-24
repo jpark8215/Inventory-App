@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Product {
 
-    private static ObservableList<Part> associatedPart = FXCollections.observableArrayList();
+    private static final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;

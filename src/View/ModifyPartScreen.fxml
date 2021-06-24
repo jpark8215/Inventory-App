@@ -31,7 +31,7 @@
               <Label text="Inventory" />
               <Label text="Price" />
               <Label text="Max" />
-              <Label fx:id="partIdNameLabel" text="Label" />
+              <Label fx:id="machineIdNameLabel" text="Label" />
          </children>
       </VBox>
       <VBox layoutX="231.0" layoutY="197.0" prefHeight="300.0" prefWidth="200.0" spacing="26.0">
@@ -41,7 +41,7 @@
               <TextField fx:id="partInventoryText" />
               <TextField fx:id="partPriceText" />
               <TextField fx:id="partMaxText" />
-              <TextField fx:id="partIdNameText" />
+              <TextField fx:id="machineIdNameText" />
          </children>
       </VBox>
         <TextField fx:id="partMinText" layoutX="506.0" layoutY="398.0" prefHeight="25.0" prefWidth="200.0" />
