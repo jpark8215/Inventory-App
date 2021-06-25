@@ -142,7 +142,7 @@ public class AddProductScreenController implements Initializable {
      * Add part selected in the all parts table to the associated parts table.
      * Display error message when part is not selected.
      @param event Add button action.
-     * */
+      * */
     @FXML
     void onActionAddParts(ActionEvent event) {
 
@@ -219,12 +219,17 @@ public class AddProductScreenController implements Initializable {
     void onActionSave(ActionEvent event) {
 
         try {
-            int id = Integer.parseInt(productIdText.getText());
+            int id = Inventory.getNewProductId();
+            int productIdIncremented = id + 1;
+            Inventory.setProductId(productIdIncremented);
+
+//          int id = Integer.parseInt(productIdText.getText());
             String name = productNameText.getText();
             double price = Double.parseDouble(productPriceText.getText());
             int stock = Integer.parseInt(productInventoryText.getText());
             int min = Integer.parseInt(productMinText.getText());
             int max = Integer.parseInt(productMaxText.getText());
+            boolean productAdded = false;
 
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -233,20 +238,21 @@ public class AddProductScreenController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
             }
 
-            else {
-                if (minValid(min, max) && inventoryValid(min, max, stock)) {
+            else if (minValid(min, max) && inventoryValid(min, max, stock)) {
 
-                    Product newProduct = new Product(id, name, price, stock, min, max);
+                Product newProduct = new Product(id, name, price, stock, min, max);
 
-                    for (Part part : associatedPart) {
-                        newProduct.addAssociatedPart(part);
-                    }
-
-                    newProduct.setId(Inventory.getNewProductId());
-                    Inventory.addProduct(newProduct);
-                    returnToMainScreen(event);
+                for (Part part : associatedPart) {
+                    newProduct.addAssociatedPart(part);
                 }
+
+                newProduct.setId(Inventory.getNewProductId());
+                Inventory.addProduct(newProduct);
+                productAdded = true;
+
             }
+            if (productAdded)
+                returnToMainScreen(event);
         }
         catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

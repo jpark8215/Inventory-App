@@ -18,14 +18,14 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <RadioButton fx:id="inHouseRadioButton" layoutX="202.0" layoutY="129.0" mnemonicParsing="false" onAction="#onActionInhouseRadio" text="In-House">
+        <RadioButton fx:id="inhouseRadioButton" layoutX="202.0" layoutY="129.0" mnemonicParsing="false" onAction="#onActionInhouseRadio" text="In-House">
          <toggleGroup>
             <ToggleGroup fx:id="partTypeTG" />
          </toggleGroup></RadioButton>
         <RadioButton fx:id="outsourcedRadioButton" layoutX="319.0" layoutY="129.0" mnemonicParsing="false" onAction="#onActionOutsourcedRadio" text="Outsourced" toggleGroup="$partTypeTG" />
       <VBox layoutX="202.0" layoutY="201.0" prefHeight="300.0" prefWidth="200.0" spacing="26.0">
          <children>
-              <TextField fx:id="partIdText" editable="false" promptText="Auto Gen - Disabled">
+              <TextField fx:id="partIdText" depthTest="DISABLE" editable="false" promptText="Auto Gen - Disabled">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
@@ -34,7 +34,7 @@
               <TextField fx:id="partInventoryText" />
               <TextField fx:id="partPriceText" />
               <TextField fx:id="partMaxText" />
-              <TextField fx:id="partIdNameText" />
+              <TextField fx:id="machineIdNameText" />
          </children>
       </VBox>
         <TextField fx:id="partMinText" layoutX="503.0" layoutY="407.0" prefHeight="25.0" prefWidth="200.0" />
@@ -47,7 +47,7 @@
               <Label text="Inventory" />
               <Label text="Price" />
               <Label text="Max" />
-              <Label fx:id="partIdNameLabel" text="Machine ID" />
+              <Label fx:id="machineIdNameLabel" text="Machine ID" />
          </children>
          <opaqueInsets>
             <Insets />

@@ -4,8 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.Iterator;
-import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Class Inventory.java
@@ -31,18 +29,12 @@ public class Inventory {
      * Get a new part ID.
      * Return a unique part ID.
      */
-/*
-    private static final AtomicInteger count = new AtomicInteger(0);
-    int NewPartID = count.incrementAndGet();
-    public static int getNewPartId() {return getNewPartId();}
-*/
-    //public static int partId = 3;
-    private static int partId = 0;
+//    public static int partId = 3;
+    private static int partId = 1;
 
     public static int getNewPartId() {return ++partId;}
-
-    //set partID to increment
-    //public static void setPartId(int partId) { Inventory.partId = partId; }
+    //set part ID to increment
+    public static void setPartId(int partId) { Inventory.partId = partId; }
 
     /**
      * Add a part to the inventory.
@@ -53,14 +45,16 @@ public class Inventory {
     }
 
 
-//TO DO : Generate auto increment ids
     /**
      * Get a new product ID.
      * Return a unique product ID.
      */
-    private static int productId = 0;
+    private static int productId = 1;
 
     public static int getNewProductId() {return ++productId;}
+    //set product ID to increment
+    public static void setProductId(int productId) { Inventory.productId = productId; }
+
 
 
     /**
@@ -153,28 +147,6 @@ public class Inventory {
      */
     public static void updatePart (int index, Part selectedPart) { allParts.set(index, selectedPart);}
 
-    /*
-    public static void updatePart (Part selectedPart) {
-        for (int i = 0; i < allParts.size(); i++) {
-            if (allParts.get(i).getId() == selectedPart.getId()) {
-                allParts.set(i, selectedPart);
-            }
-        }
-    }
-    /*
-    public boolean updatePart (int partId, Part selectedPart) {
-        int index = -1;
-        for(Part part : Inventory.getAllParts()){
-            index++;
-
-            //Compare id in the index parameter
-            if(part.getId() == partId){
-                Inventory.getAllParts().set(index, part);
-                return true;
-            }
-        }
-        return false;
-*/
 
     /**
      * Update a product in the list of products.

@@ -19,7 +19,7 @@ public class Main extends Application {
      * Open main screen.
      */
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/View/MainScreen.fxml"));
         primaryStage.setTitle("Inventory Management System");
         primaryStage.setScene(new Scene(root));
@@ -31,9 +31,9 @@ public class Main extends Application {
         /**
          * Add sample parts.
          */
-        InhousePart breaks = new InhousePart(1,"Breaks", 15.00, 10, 1, 20,0);
-        InhousePart wheel = new InhousePart(2,"Wheel", 11.00, 16, 1, 20,0);
-        InhousePart seat = new InhousePart(3,"Seat", 15.00, 10, 1, 20,0);
+        InhousePart breaks = new InhousePart(1, "Breaks", 15.00, 10, 1, 20, 100);
+        InhousePart wheel = new InhousePart(2, "Wheel", 11.00, 16, 1, 20, 101);
+        InhousePart seat = new InhousePart(3, "Seat", 15.00, 10, 1, 20, 102);
 
         Inventory.addPart(breaks);
         Inventory.addPart(wheel);
@@ -42,12 +42,13 @@ public class Main extends Application {
         /**
          * Add sample products.
          */
-        Product giantBike = new Product(1000, "Giant Bike",299.99, 5, 1, 100);
-        Product tricycle = new Product(1001, "Tricycle",99.99, 3, 1, 100);
+        Product giantBike = new Product(1, "Giant Bike", 299.99, 5, 1, 100);
+        Product tricycle = new Product(2, "Tricycle", 99.99, 3, 1, 100);
 
         Inventory.addProduct(giantBike);
         Inventory.addProduct(tricycle);
 
         launch(args);
+
     }
 }

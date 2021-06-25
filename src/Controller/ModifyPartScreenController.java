@@ -215,7 +215,7 @@ public class ModifyPartScreenController implements Initializable {
             int max = Integer.parseInt(partMaxText.getText());
             int machineId;
             String companyName;
-            boolean partAdded = false;
+            boolean partModified = false;
 
             if (minValid(min, max) && inventoryValid(min, max, stock)) {
 
@@ -224,7 +224,7 @@ public class ModifyPartScreenController implements Initializable {
                         machineId = Integer.parseInt(machineIdNameText.getText());
                         InhousePart newInHousePart = new InhousePart(id, name, price, stock, min, max, machineId);
                         Inventory.addPart(newInHousePart);
-                        partAdded = true;
+                        partModified = true;
                     }
                     catch (Exception e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -240,7 +240,7 @@ public class ModifyPartScreenController implements Initializable {
                         OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
                                 companyName);
                         Inventory.addPart(newOutsourcedPart);
-                        partAdded = true;
+                        partModified = true;
                     }
                     catch (Exception e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -250,7 +250,7 @@ public class ModifyPartScreenController implements Initializable {
                     }
                 }
 
-                if (partAdded) {
+                if (partModified) {
                     Inventory.deletePart(selectedPart);
                     returnToMainScreen(event);
                 }

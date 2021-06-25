@@ -54,7 +54,7 @@ public class AddPartScreenController implements Initializable {
             isValid = false;
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setContentText("Invalid number. Minimum cannot be greater than maximum value.");
+            alert.setContentText("Minimum cannot be greater than maximum value.");
             alert.showAndWait();
         }
         return isValid;
@@ -156,7 +156,7 @@ public class AddPartScreenController implements Initializable {
      @throws IOException From FXMLLoader.
      */
     @FXML
-     void onActionCancelAddParts(ActionEvent event) throws IOException {
+    void onActionCancelAddParts(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("CONFIRMATION");
@@ -201,16 +201,11 @@ public class AddPartScreenController implements Initializable {
     void onActionSaveAddParts(ActionEvent event) {
 
         try {
-            /*
-            // Gets the current global ID for Parts
-            int partId = Inventory.getNewPartId();
-            // Increments the Part ID Count
-            int partIdIncremented = partId + 1;
-            // Setting incremented ID
+            int id = Inventory.getNewPartId();
+            int partIdIncremented = id + 1;
             Inventory.setPartId(partIdIncremented);
-*/
 
-            int id = Integer.parseInt(partIdText.getText());
+//            int id = Integer.parseInt(partIdText.getText());
             String name = partNameText.getText();
             double price = Double.parseDouble(partPriceText.getText());
             int stock = Integer.parseInt(partInventoryText.getText());
@@ -219,7 +214,7 @@ public class AddPartScreenController implements Initializable {
             int machineId;
             String companyName;
             boolean partAdded = false;
-            //Inventory.partId = id;
+//            Inventory.partId = id;
 
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -239,36 +234,34 @@ public class AddPartScreenController implements Initializable {
                             newInhousePart.setId(Inventory.getNewPartId());
                             Inventory.addPart(newInhousePart);
                             partAdded = true;
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             Alert alert = new Alert(Alert.AlertType.ERROR);
                             alert.setTitle("ERROR");
                             alert.setContentText("Please enter valid machine ID number.");
                             alert.showAndWait();
                         }
                     }
-
-                    if  (outsourcedRadioButton.isSelected()) {
+                    else if (outsourcedRadioButton.isSelected()) {
                         try {
                             companyName = machineIdNameText.getText();
                             OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max, companyName);
                             newOutsourcedPart.setId(Inventory.getNewPartId());
                             Inventory.addPart(newOutsourcedPart);
                             partAdded = true;
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             Alert alert = new Alert(Alert.AlertType.ERROR);
                             alert.setTitle("ERROR");
                             alert.setContentText("Please enter valid company name.");
                             alert.showAndWait();
                         }
                     }
-
-                    if (partAdded) {
-                        returnToMainScreen(event);
-                    }
                 }
-           }
+
+                if (partAdded) {
+                    returnToMainScreen(event);
+                }
+            }
+
         }
         catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -285,7 +278,7 @@ public class AddPartScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         inhouseRadioButton.setSelected(true);
 
-        //ID show up in the text field
+        //ID to show up in the text field
         // Inventory.partId += 1;
         // partIdText.setText(String.valueOf(Inventory.partId));
 
