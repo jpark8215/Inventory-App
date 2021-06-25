@@ -267,6 +267,7 @@ public class ModifyProductScreenController implements Initializable {
             int max = Integer.parseInt(productMaxText.getText());
             boolean productModified = false;
 
+
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("ERROR");
@@ -277,18 +278,21 @@ public class ModifyProductScreenController implements Initializable {
 
                 Product newProduct = new Product(id, name, price, stock, min, max);
 
-                for (Part part : associatedPart) { newProduct.addAssociatedPart(part); }
+//                for (Part part : associatedPart) {
+//                    newProduct.addAssociatedPart(part);
 
-                Inventory.deleteProduct(selectedProduct);
-                Inventory.addProduct(newProduct);
-                productModified = true;
+                    Inventory.deleteProduct(selectedProduct);
+                    Inventory.addProduct(newProduct);
 
-            }
-            if (productModified)
+                    productModified = true;
+                    }
+//                }
+            if (productModified) {
                 returnToMainScreen(event);
-
+            }
         }
         catch (Exception e){
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setContentText("Invalid value or Empty field. Please enter valid data.");

@@ -202,8 +202,10 @@ public class AddPartScreenController implements Initializable {
 
         try {
             int id = Inventory.getNewPartId();
-            int partIdIncremented = id + 1;
-            Inventory.setPartId(partIdIncremented);
+            id++;
+            Inventory.setPartId(id);
+//            int partIdIncremented = id++;
+//            Inventory.setPartId(partIdIncremented);
 
 //            int id = Integer.parseInt(partIdText.getText());
             String name = partNameText.getText();

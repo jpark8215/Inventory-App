@@ -220,8 +220,10 @@ public class AddProductScreenController implements Initializable {
 
         try {
             int id = Inventory.getNewProductId();
-            int productIdIncremented = id + 1;
-            Inventory.setProductId(productIdIncremented);
+            id++;
+            Inventory.setProductId(id);
+ //           int productIdIncremented = id++;
+ //           Inventory.setProductId(productIdIncremented);
 
 //          int id = Integer.parseInt(productIdText.getText());
             String name = productNameText.getText();

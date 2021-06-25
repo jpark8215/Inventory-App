@@ -30,9 +30,9 @@ public class Inventory {
      * Return a unique part ID.
      */
 //    public static int partId = 3;
-    private static int partId = 1;
+    private static int partId = 3;
 
-    public static int getNewPartId() {return ++partId;}
+    public static int getNewPartId() {return partId;}
     //set part ID to increment
     public static void setPartId(int partId) { Inventory.partId = partId; }
 
@@ -49,9 +49,9 @@ public class Inventory {
      * Get a new product ID.
      * Return a unique product ID.
      */
-    private static int productId = 1;
+    private static int productId = 2;
 
-    public static int getNewProductId() {return ++productId;}
+    public static int getNewProductId() {return productId;}
     //set product ID to increment
     public static void setProductId(int productId) { Inventory.productId = productId; }
 
@@ -61,9 +61,10 @@ public class Inventory {
      * Add a product to the inventory.
      @param newProduct The product object to add.
      */
-    public static void addProduct(Product newProduct) {
-        allProducts.add(newProduct);
-    }
+    public static void addProduct(Product newProduct) { allProducts.add(newProduct); }
+//    public static boolean addProduct(Product newProduct) {
+//        return allProducts.add(newProduct);
+//    }
 
 
     /**
