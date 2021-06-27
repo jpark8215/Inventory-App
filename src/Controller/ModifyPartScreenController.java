@@ -27,7 +27,6 @@ public class ModifyPartScreenController implements Initializable {
     Stage stage;
     Parent scene;
 
-
     /**
      * Part selected in MainScreenController.
      */
@@ -225,24 +224,21 @@ public class ModifyPartScreenController implements Initializable {
                         InhousePart newInHousePart = new InhousePart(id, name, price, stock, min, max, machineId);
                         Inventory.addPart(newInHousePart);
                         partModified = true;
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("ERROR");
                         alert.setContentText("Please enter valid machine ID number.");
                         Optional<ButtonType> result = alert.showAndWait();
                     }
                 }
-
-                if (outsourcedRadioButton.isSelected()) {
-                    try{
+                else if (outsourcedRadioButton.isSelected()) {
+                    try {
                         companyName = machineIdNameText.getText();
                         OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
                                 companyName);
                         Inventory.addPart(newOutsourcedPart);
                         partModified = true;
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("ERROR");
                         alert.setContentText("Please enter valid company name.");
@@ -263,7 +259,6 @@ public class ModifyPartScreenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
         }
     }
-
 
 
     /**

@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -35,8 +36,6 @@ public class AddProductScreenController implements Initializable {
      * List of parts associated with the product.
      */
     private final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
-
-
     /**
      * Associated part table view.
      */
@@ -222,10 +221,6 @@ public class AddProductScreenController implements Initializable {
             int id = Inventory.getNewProductId();
             id++;
             Inventory.setProductId(id);
- //           int productIdIncremented = id++;
- //           Inventory.setProductId(productIdIncremented);
-
-//          int id = Integer.parseInt(productIdText.getText());
             String name = productNameText.getText();
             double price = Double.parseDouble(productPriceText.getText());
             int stock = Integer.parseInt(productInventoryText.getText());
@@ -239,20 +234,18 @@ public class AddProductScreenController implements Initializable {
                 alert.setContentText("Please enter valid name.");
                 Optional<ButtonType> result = alert.showAndWait();
             }
-
             else if (minValid(min, max) && inventoryValid(min, max, stock)) {
 
                 Product newProduct = new Product(id, name, price, stock, min, max);
 
-                for (Part part : associatedPart) {
-                    newProduct.addAssociatedPart(part);
+                for (Part part : associatedPart) { newProduct.addAssociatedPart(part);
                 }
-
                 newProduct.setId(Inventory.getNewProductId());
                 Inventory.addProduct(newProduct);
-                productAdded = true;
 
+                productAdded = true;
             }
+
             if (productAdded)
                 returnToMainScreen(event);
         }
@@ -267,41 +260,35 @@ public class AddProductScreenController implements Initializable {
 
     /**
      * Search the value in the search text field and renew the part table view with search result.
-     * Part can be searched by ID or name.
-     @param event Part search button action.
-     */
-    @FXML
-    void onActionSearchParts(ActionEvent event) {
-
-        ObservableList<Part> allParts = Inventory.getAllParts();
-        ObservableList<Part> partFound = FXCollections.observableArrayList();
-        String searchString = partSearchText.getText();
-
-        for (Part part : allParts) {
-            if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
-                partFound.add(part);
-            }
-        }
-        partTableView.setItems(partFound);
-
-        if (partFound.size() == 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("Part not found.");
-            Optional<ButtonType> result = alert.showAndWait();
-        }
-    }
-
-
-    /**
      * Renew part table to show all parts when part search text field is empty.
+     * Part can be searched by ID or name.
      @param event Parts search text field key pressed.
      */
     @FXML
-    void partSearchKeyPressed(KeyEvent event) {
+        void onKeyPressedSearchPart(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
 
-        if (partSearchText.getText().isEmpty()) {
-            partTableView.setItems(Inventory.getAllParts());
+            ObservableList<Part> allParts = Inventory.getAllParts();
+            ObservableList<Part> partFound = FXCollections.observableArrayList();
+            String searchString = partSearchText.getText();
+
+            for (Part part : allParts) {
+                if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
+                    partFound.add(part);
+                }
+                else if (partSearchText.getText().isEmpty()) {
+                    partTableView.setItems(Inventory.getAllParts());
+                }
+            }
+
+            partTableView.setItems(partFound);
+
+            if (partFound.size() == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Part not found.");
+                Optional<ButtonType> result = alert.showAndWait();
+            }
         }
     }
 
@@ -333,7 +320,7 @@ public class AddProductScreenController implements Initializable {
             isValid = false;
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setContentText("Invalid number. Minimum cannot be larger than maximum value.");
+            alert.setContentText("Minimum cannot be larger than maximum value.");
             Optional<ButtonType> result = alert.showAndWait();
         }
         return isValid;

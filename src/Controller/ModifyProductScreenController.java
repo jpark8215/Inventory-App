@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -30,99 +31,119 @@ import java.util.ResourceBundle;
 public class ModifyProductScreenController implements Initializable {
     Stage stage;
     Parent scene;
+
     /**
      * Product selected in MainScreenController.
      */
     Product selectedProduct;
+
     /**
      * List of associated parts with the product.
      */
     private ObservableList<Part> associatedPart = FXCollections.observableArrayList();
+
     /**
      * Associated part table view.
      */
     @FXML
     private TableView<Part> associatedPartTableView;
+
     /**
      * Part ID column for the associated part table.
      */
     @FXML
     private TableColumn<Part, Integer> associatedPartIdColumn;
+
     /**
      * Part name column for the associated part table.
      */
     @FXML
     private TableColumn<Part, String> associatedPartNameColumn;
+
     /**
      * Inventory column for the associated part table.
      */
     @FXML
     private TableColumn<Part, Integer> associatedPartInventoryColumn;
+
     /**
      * Part price column for the associated part table.
      */
     @FXML
     private TableColumn<Part, Double> associatedPartPriceColumn;
+
     /**
      * All parts table view.
      */
     @FXML
     private TableView<Part> partTableView;
+
     /**
      * Part ID column for all parts table.
      */
     @FXML
     private TableColumn<Part, Integer> partIdColumn;
+
     /**
      * Part name column for the all parts table.
      */
     @FXML
     private TableColumn<Part, String> partNameColumn;
+
     /**
      * Inventory column for the all parts table.
      */
     @FXML
     private TableColumn<Part, Integer> partInventoryColumn;
+
     /**
      * Part price column for the all parts table.
      */
     @FXML
     private TableColumn<Part, Double> partPriceColumn;
+
     /**
      * Part search text field.
      */
     @FXML
     private TextField partSearchText;
+
     /**
      * Product ID text field.
      */
     @FXML
     private TextField productIdText;
+
     /**
      * Product name text field.
      */
     @FXML
     private TextField productNameText;
+
     /**
      * Product inventory text field.
      */
     @FXML
     private TextField productInventoryText;
+
     /**
      * Product price text field.
      */
     @FXML
     private TextField productPriceText;
+
     /**
      * Product maximum text field.
      */
     @FXML
     private TextField productMaxText;
+
     /**
      * Product minimum text field.
      */
     @FXML
     private TextField productMinText;
+
 
     /**
      * Load MainScreenController.
@@ -135,6 +156,7 @@ public class ModifyProductScreenController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
 
     /**
      * Confirm that min is greater than zero and less than max.
@@ -156,6 +178,7 @@ public class ModifyProductScreenController implements Initializable {
         return isValid;
     }
 
+
     /**
      * Confirm that inventory is equal to or between min and max.
      @param min Minimum value for the part.
@@ -176,6 +199,7 @@ public class ModifyProductScreenController implements Initializable {
         }
         return isValid;
     }
+
 
     /**
      * Add part selected in the all parts table to the associated parts table.
@@ -248,7 +272,6 @@ public class ModifyProductScreenController implements Initializable {
     }
 
 
-    //TO DO: when saved with added part, data duplicates
     /**
      * Renew product in inventory and load MainScreenController.
      * Text fields are checked.
@@ -267,7 +290,6 @@ public class ModifyProductScreenController implements Initializable {
             int max = Integer.parseInt(productMaxText.getText());
             boolean productModified = false;
 
-
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("ERROR");
@@ -278,15 +300,12 @@ public class ModifyProductScreenController implements Initializable {
 
                 Product newProduct = new Product(id, name, price, stock, min, max);
 
-//                for (Part part : associatedPart) {
-//                    newProduct.addAssociatedPart(part);
-
                     Inventory.deleteProduct(selectedProduct);
                     Inventory.addProduct(newProduct);
 
                     productModified = true;
-                    }
-//                }
+            }
+
             if (productModified) {
                 returnToMainScreen(event);
             }
@@ -304,41 +323,35 @@ public class ModifyProductScreenController implements Initializable {
 
     /**
      * Search the value in the search text field and renew the part table view with search result.
-     * Part can be searched by ID or name.
-     @param event Part search button action.
-     */
-    @FXML
-    void onActionSearchParts(ActionEvent event) {
-
-        ObservableList<Part> allParts = Inventory.getAllParts();
-        ObservableList<Part> partFound = FXCollections.observableArrayList();
-        String searchString = partSearchText.getText();
-
-        for (Part part : allParts) {
-            if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
-                partFound.add(part);
-            }
-        }
-        partTableView.setItems(partFound);
-
-        if (partFound.size() == 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("Invalid value or Empty field. Please enter valid data.");
-            Optional<ButtonType> result = alert.showAndWait();
-        }
-    }
-
-
-    /**
      * Renew part table to show all parts when part search text field is empty.
+     * Part can be searched by ID or name.
      @param event Parts search text field key pressed.
      */
     @FXML
-    void searchKeyPressed(KeyEvent event) {
+    void onKeyPressedSearchPart(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
 
-        if (partSearchText.getText().isEmpty()) {
-            partTableView.setItems(Inventory.getAllParts());
+            ObservableList<Part> allParts = Inventory.getAllParts();
+            ObservableList<Part> partFound = FXCollections.observableArrayList();
+            String searchString = partSearchText.getText();
+
+            for (Part part : allParts) {
+                if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
+                    partFound.add(part);
+                }
+                else if (partSearchText.getText().isEmpty()) {
+                    partTableView.setItems(Inventory.getAllParts());
+                }
+            }
+
+            partTableView.setItems(partFound);
+
+            if (partFound.size() == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Invalid value or Empty field. Please enter valid data.");
+                Optional<ButtonType> result = alert.showAndWait();
+            }
         }
     }
 

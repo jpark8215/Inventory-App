@@ -33,7 +33,7 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
         </TableView>
-        <TextField fx:id="partSearchText" layoutX="772.0" layoutY="25.0" onKeyPressed="#partSearchKeyPressed" promptText="Search by ID or Name" />
+        <TextField fx:id="partSearchText" layoutX="772.0" layoutY="25.0" onKeyPressed="#onKeyPressedSearchPart" prefHeight="25.0" prefWidth="219.0" promptText="Search by ID or Name" />
         <Button layoutX="880.0" layoutY="559.0" mnemonicParsing="false" onAction="#onActionSave" text="Save" />
         <Button layoutX="841.0" layoutY="494.0" mnemonicParsing="false" onAction="#onActionRemoveAssociatedParts" prefHeight="25.0" prefWidth="150.0" text="Remove Associated Part" />
         <Button layoutX="953.0" layoutY="262.0" mnemonicParsing="false" onAction="#onActionAddParts" text="Add" />
@@ -56,6 +56,5 @@
         <TextField fx:id="productPriceText" layoutX="128.0" layoutY="300.0" />
         <TextField fx:id="productMaxText" layoutX="128.0" layoutY="348.0" />
         <TextField fx:id="productMinText" layoutX="374.0" layoutY="348.0" />
-        <Button layoutX="939.0" layoutY="25.0" mnemonicParsing="false" onAction="#onActionSearchParts" text="Search" />
     </children>
 </AnchorPane>

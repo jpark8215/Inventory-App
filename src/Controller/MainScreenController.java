@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -207,6 +208,20 @@ public class MainScreenController implements Initializable{
 
 
     /**
+     * Part selected in the table view.
+     */
+    private static Part partToModify;
+
+    /**
+     * Load the selected part in the part table.
+     @return A part to modify.
+     */
+    public static Part getPartToModify() {
+        return partToModify;
+    }
+
+
+    /**
      * Loads the ModifyPartController.
      * Display error message when part is not selected.
      @param event Part modify button action
@@ -216,9 +231,6 @@ public class MainScreenController implements Initializable{
 
         partToModify = partTableView.getSelectionModel().getSelectedItem();
 
-        /**
-         * Prevent null from being passed to the ModifyPartController.
-         */
         if (partToModify == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -235,6 +247,20 @@ public class MainScreenController implements Initializable{
 
 
     /**
+     * Product selected in the table view.
+     */
+    private static Product productToModify;
+
+    /**
+     * Load the selected product in the product table.
+     @return A product to modify.
+     */
+    public static Product getProductToModify() {
+        return productToModify;
+    }
+
+
+    /**
      * Loads the ModifyProductController.
      * Display error message when product is not selected.
      @param event Product modify button action
@@ -244,9 +270,6 @@ public class MainScreenController implements Initializable{
 
         productToModify = productTableView.getSelectionModel().getSelectedItem();
 
-        /**
-         * Prevent null from being passed to the ModifyProductController.
-         */
         if (productToModify == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -264,114 +287,72 @@ public class MainScreenController implements Initializable{
 
     /**
      * Search the value in the search text field and renew the part table view with search result.
+     * Renew part table to show all parts when part search text field is empty.
      * Part can be searched by ID or name.
-     @param event Part search button action.
+     @param event Enter key pressed in the part search text field.
      */
     @FXML
-    void onActionSearchParts(ActionEvent event) {
+    void onKeyPressedSearchPart(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
 
-        ObservableList<Part> allParts = Inventory.getAllParts();
-        ObservableList<Part> partFound = FXCollections.observableArrayList();
-        String searchString = partSearchText.getText();
+            ObservableList<Part> allParts = Inventory.getAllParts();
+            ObservableList<Part> partFound = FXCollections.observableArrayList();
+            String searchString = partSearchText.getText();
 
-        for (Part part : allParts) {
-            if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
-                partFound.add(part);
+            for (Part part : allParts) {
+                if (String.valueOf(part.getId()).contains(searchString) || part.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
+                    partFound.add(part);
+                }
+                else if (partSearchText.getText().isEmpty()) {
+                    partTableView.setItems(Inventory.getAllParts());
+                }
             }
-        }
 
-        partTableView.setItems(partFound);
+            partTableView.setItems(partFound);
 
-        if (partFound.size() == 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("Parts not found.");
-            Optional<ButtonType> result = alert.showAndWait();
+            if (partFound.size() == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Part not found.");
+                Optional<ButtonType> result = alert.showAndWait();
+            }
         }
     }
 
 
     /**
      * Search the value in the search text field and renew the product table view with search result.
+     * Renew product table to show all products when product search text field is empty.
      * Product can be searched by ID or name.
-     @param event Product search button action.
+     @param event Enter key pressed in the product search text field..
      */
     @FXML
-    void onActionSearchProducts(ActionEvent event) {
+    void onKeyPressedSearchProduct(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
 
-        ObservableList<Product> allProducts= Inventory.getAllProducts();
-        ObservableList<Product> productFound = FXCollections.observableArrayList();
-        String searchString = productSearchText.getText();
+            ObservableList<Product> allProducts = Inventory.getAllProducts();
+            ObservableList<Product> productFound = FXCollections.observableArrayList();
+            String searchString = productSearchText.getText();
 
-        for (Product product : allProducts) {
-            if (String.valueOf(product.getId()).contains(searchString) || product.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
-                productFound.add(product);
+            for (Product product : allProducts) {
+                if (String.valueOf(product.getId()).contains(searchString) || product.getName().toLowerCase(Locale.ROOT).contains(searchString)) {
+                    productFound.add(product);
+                }
+                else if (productSearchText.getText().isEmpty()) {
+                    productTableView.setItems(Inventory.getAllProducts());
+                }
+            }
+
+            productTableView.setItems(productFound);
+
+            if (productFound.size() == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Product not found.");
+                Optional<ButtonType> result = alert.showAndWait();
             }
         }
-
-        productTableView.setItems(productFound);
-
-        if (productFound.size() == 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("Products not found.");
-            Optional<ButtonType> result = alert.showAndWait();
-        }
     }
-
-
-    /**
-     * Renew part table to show all parts when part search text field is empty.
-     @param event Part search text field key pressed.
-     */
-    @FXML
-    void partSearchTextKeyPressed(KeyEvent event) {
-
-        if (partSearchText.getText().isEmpty()) {
-            partTableView.setItems(Inventory.getAllParts());
-        }
-    }
-
-
-    /**
-     * Renew product table to show all products when product search text field is empty.
-     @param event Product search text field key pressed.
-     */
-    @FXML
-    void productSearchTextKeyPressed(KeyEvent event) {
-
-        if (productSearchText.getText().isEmpty()) {
-            productTableView.setItems(Inventory.getAllProducts());
-        }
-    }
-
-
-
-    /**
-     * Part selected in the table view.
-     */
-    private static Part partToModify;
-    /**
-     * Load the selected part in the part table.
-     @return A part to modify.
-     */
-    public static Part getPartToModify() {
-        return partToModify;
-    }
-
-
-    /**
-     * Product selected in the table view.
-     */
-    private static Product productToModify;
-    /**
-     * Load the selected product in the product table.
-     @return A product to modify.
-     */
-    public static Product getProductToModify() {
-        return productToModify;
-    }
-
 
 
     @Override

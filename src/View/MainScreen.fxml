@@ -17,7 +17,7 @@
       </Label>
       <AnchorPane layoutX="63.0" layoutY="153.0" prefHeight="310.0" prefWidth="450.0" style="-fx-border-color: gray; -fx-border-radius: 20;">
          <children>
-            <TextField fx:id="partSearchText" layoutX="215.0" layoutY="23.0" onKeyPressed="#partSearchTextKeyPressed" promptText="Search by ID or Name" />
+            <TextField fx:id="partSearchText" layoutX="215.0" layoutY="23.0" onKeyPressed="#onKeyPressedSearchPart" prefHeight="25.0" prefWidth="210.0" promptText="Search by Part ID or Name" />
             <Label layoutX="22.0" layoutY="28.0" style="-fx-font-weight: bold;" text="Parts" />
             <TableView fx:id="partTableView" layoutX="25.0" layoutY="70.0" prefHeight="186.0" prefWidth="400.0">
                <columns>
@@ -33,12 +33,11 @@
             <Button layoutX="374.0" layoutY="269.0" mnemonicParsing="false" onAction="#onActionDeleteParts" text="Delete" />
             <Button layoutX="268.0" layoutY="269.0" mnemonicParsing="false" onAction="#onActionModifyParts" text="Modify" />
             <Button layoutX="215.0" layoutY="269.0" mnemonicParsing="false" onAction="#onActionAddParts" text="Add" />
-            <Button layoutX="374.0" layoutY="23.0" mnemonicParsing="false" onAction="#onActionSearchParts" text="Search" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="518.0" layoutY="153.0" prefHeight="310.0" prefWidth="450.0" style="-fx-border-color: gray; -fx-border-radius: 20;">
          <children>
-            <TextField fx:id="productSearchText" layoutX="217.0" layoutY="23.0" onKeyPressed="#productSearchTextKeyPressed" promptText="Search by ID or Name" />
+            <TextField fx:id="productSearchText" layoutX="217.0" layoutY="23.0" onKeyPressed="#onKeyPressedSearchProduct" prefHeight="25.0" prefWidth="210.0" promptText="Search by Product ID or Name" />
             <Label layoutX="25.0" layoutY="27.0" style="-fx-font-weight: bold;" text="Products" />
             <TableView fx:id="productTableView" layoutX="25.0" layoutY="70.0" prefHeight="186.0" prefWidth="400.0">
                <columns>
@@ -54,7 +53,6 @@
             <Button layoutX="374.0" layoutY="269.0" mnemonicParsing="false" onAction="#onActionDeleteProducts" text="Delete" />
             <Button layoutX="264.0" layoutY="269.0" mnemonicParsing="false" onAction="#onActionModifyProducts" text="Modify" />
             <Button layoutX="213.0" layoutY="269.0" mnemonicParsing="false" onAction="#onActionAddProducts" text="Add" />
-            <Button layoutX="374.0" layoutY="23.0" mnemonicParsing="false" onAction="#onActionSearchProducts" text="Search" />
          </children>
       </AnchorPane>
       <Button layoutX="930.0" layoutY="509.0" mnemonicParsing="false" onAction="#onActionExit" text="Exit" />
