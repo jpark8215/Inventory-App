@@ -28,12 +28,6 @@ public class ModifyPartScreenController implements Initializable {
     Parent scene;
 
     /**
-     * Part selected in MainScreenController.
-     */
-    private Part selectedPart;
-
-
-    /**
      * Load MainScreenController.
      @param event Passed from parent method.
      */
@@ -47,10 +41,10 @@ public class ModifyPartScreenController implements Initializable {
 
 
     /**
-     * Confirm that min is greater than zero and less than max.
+     * Confirm that minimum is greater than zero and less than maximum.
      @param min Minimum value for the part.
      @param max Maximum value for the part.
-     @return Boolean indicating if min is valid.
+     @return Boolean indicating if minimum is valid.
      */
     private boolean minValid(int min, int max) {
 
@@ -68,11 +62,11 @@ public class ModifyPartScreenController implements Initializable {
 
 
     /**
-     * Confirm that inventory is equal to or between min and max.
-     @param min Minimum value for the part.
-     @param max Maximum value for the part.
-     @param stock The inventory for the part.
-     @return Boolean indicating if inventory is valid.
+     * Confirm that inventory is equal to or between minimum and maximum.
+     * @param min Minimum value for the part.
+     * @param max Maximum value for the part.
+     * @param stock Inventory level for the part.
+     * @return Boolean indicating if inventory is valid.
      */
     private boolean inventoryValid(int min, int max, int stock) {
 
@@ -88,6 +82,11 @@ public class ModifyPartScreenController implements Initializable {
         return isValid;
     }
 
+
+    /**
+     * Part selected in MainScreenController.
+     */
+    private Part selectedPart;
 
     /**
      * Machine ID/company name label for the part.
@@ -207,6 +206,7 @@ public class ModifyPartScreenController implements Initializable {
 
         try {
             int id = selectedPart.getId();
+ //           int modifiedPartId = Integer.parseInt(partIdText.getText());
             String name = partNameText.getText();
             double price = Double.parseDouble(partPriceText.getText());
             int stock = Integer.parseInt(partInventoryText.getText());
@@ -255,19 +255,30 @@ public class ModifyPartScreenController implements Initializable {
         catch(Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setContentText("Invalid value or Empty field. Please enter valid data.");
+            alert.setContentText("Invalid value or Empty field. Please enter valid data.\n" +
+                    "ID: Integer\n" +
+                    "Name: String\n" +
+                    "Price: Double\n" +
+                    "Inventory: Integer\n" +
+                    "Min/ Max: Integer\n" +
+                    "Machine ID: Integer\n" +
+                    "Company Name: String");
             Optional<ButtonType> result = alert.showAndWait();
         }
     }
 
 
     /**
+     * Disable the id text field.
+     * Initialize controller and pre-select the radio button.
      * Initialize controller and populate text fields with selected parts in MainScreenController.
      @param location Location used to resolve relative paths for the root object, or null for unknown location.
      @param resources Resources used to localize the root object, or null for un localized root object.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        partIdText.setEditable(false);
 
         inhouseRadioButton.setSelected(true);
 

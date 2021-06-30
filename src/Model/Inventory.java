@@ -3,9 +3,9 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Iterator;
-
 /**
+ * RUNTIME ERROR: Initially created id method in Inventory.java, but I encountered trouble with creating random ids for each page.
+ * RUNTIME ERROR: Located in AddPartScreenController and AddProductScreenController. Removed/ changed a couple of lines for Id in controllers.
  * Class Inventory.java
  @author Jieun Park
  */
@@ -15,26 +15,23 @@ public class Inventory {
     /**
      * A list of all parts in the inventory.
      */
-    private static final ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private static ObservableList<Part> allParts = FXCollections.observableArrayList();
 
 
     /**
      * A list of all products in the inventory.
      */
-    private static final ObservableList<Product> allProducts = FXCollections.observableArrayList();
+    private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
 
-//TO DO : Generate auto increment ids
-    /**
-     * Get a new part ID.
-     * Return a unique part ID.
-     */
-//    public static int partId = 3;
-    private static int partId = 3;
+//    /**
+//     * Get and set a new part ID.
+//     * Return a unique part ID.
+//     */
+//    private static int partId = 4;
+//    public static int getNewPartId() {return partId;}
+//    public static void setPartId(int partId) { Inventory.partId = partId; }
 
-    public static int getNewPartId() {return partId;}
-    //set part ID to increment
-    public static void setPartId(int partId) { Inventory.partId = partId; }
 
     /**
      * Add a part to the inventory.
@@ -45,16 +42,13 @@ public class Inventory {
     }
 
 
-    /**
-     * Get a new product ID.
-     * Return a unique product ID.
-     */
-    private static int productId = 2;
-
-    public static int getNewProductId() {return productId;}
-    //set product ID to increment
-    public static void setProductId(int productId) { Inventory.productId = productId; }
-
+//    /**
+//     * Get and set a new product ID.
+//     * Return a unique product ID.
+//     */
+//    private static int productId = 2;
+//    public static int getNewProductId() {return productId;}
+//    public static void setProductId(int productId) { Inventory.productId = productId; }
 
 
     /**
@@ -62,9 +56,6 @@ public class Inventory {
      @param newProduct The product object to add.
      */
     public static void addProduct(Product newProduct) { allProducts.add(newProduct); }
-//    public static boolean addProduct(Product newProduct) {
-//        return allProducts.add(newProduct);
-//    }
 
 
     /**
@@ -72,7 +63,7 @@ public class Inventory {
      @param partId The part ID.
      @return The part object if found, null if not found.
      */
-    public static Part lookupPart(int partId) {
+    public static Part lookupPartId(int partId) {
         Part partFound = null;
 
         for (Part part : allParts) {
@@ -89,7 +80,7 @@ public class Inventory {
      @param productId The product ID.
      @return The product object if found, null if not found.
      */
-    public static Product lookupProduct(int productId) {
+    public static Product lookupProductId(int productId) {
         Product productFound = null;
 
         for (Product product : allProducts) {
@@ -106,39 +97,35 @@ public class Inventory {
      @param partName The part name.
      @return A list of parts found.
      */
-    public static ObservableList<Part> lookupPart(String partName) {
+    public static ObservableList<Part> lookupPartName(String partName) {
 
-        Iterator<Part> itr = allParts.listIterator();
-        ObservableList<Part> partFound = FXCollections.observableArrayList();
-        while (itr.hasNext()) {
-            Part part = itr.next();
+        ObservableList<Part> partsFound = FXCollections.observableArrayList();
+
+        for (Part part : allParts) {
             if (part.getName().equals(partName)) {
-                partFound.add(part);
-                return partFound;
+                partsFound.add(part);
             }
         }
-        return null;
+        return partsFound;
     }
 
 
-    //TO DO :  Look up the list of parts by name case insensitive
     /**
      * Look up the list of products by name.
      @param productName The product name.
      @return A list of products found.
      */
-    public static ObservableList<Product> lookupProduct(String productName) {
+    public static ObservableList<Product> lookupProductName(String productName) {
 
-        Iterator<Product> itr = allProducts.listIterator();
-        ObservableList<Product> productFound = FXCollections.observableArrayList();
-        while (itr.hasNext()) {
-            Product product = itr.next();
+        ObservableList<Product> productsFound = FXCollections.observableArrayList();
+
+        for (Product product : allProducts) {
             if (product.getName().equals(productName)) {
-                productFound.add(product);
-                return productFound;
+                productsFound.add(product);
             }
         }
-        return null;
+
+        return productsFound;
     }
 
 
@@ -154,9 +141,7 @@ public class Inventory {
      @param index Index of the product to be replaced.
      @param selectedProduct The product used for replacement.
      */
-    public static void updateProduct (int index, Product selectedProduct) {
-        allProducts.set(index, selectedProduct);
-    }
+   public static void updateProduct (int index, Product selectedProduct) { allProducts.set(index, selectedProduct); }
 
 
     /**
