@@ -29,19 +29,18 @@ public class AddPartScreenController implements Initializable {
     int partId;
 
     /**
-     * RUNTIME ERROR: Initially created id method in Inventory.java, but I encountered trouble with creating random ids for each page.
-     * Created random id method in controllers.
-     * Generate a random number for product.
-     * Check existing product numbers to confirm for duplicates.
-     * @return Random product ID.
+     * RUNTIME/LOGICAL ERROR: Initially created id method in Inventory.java, but I encountered trouble with creating random ids for each page.
+     * Generate a random number for part.
+     * Check existing part numbers to confirm for duplicates.
+     * @return Random part ID.
      */
     private int assignPartId(){
         int randomPartId;
-        randomPartId = random.nextInt(100);
+        randomPartId = random.nextInt(1000);
 
         for(Part part : Inventory.getAllParts()){
             if(part.getId() == randomPartId){
-                boolean isMatch = true;
+                boolean isMatch = false;
                 assignPartId();
             }
         }
@@ -214,7 +213,7 @@ public class AddPartScreenController implements Initializable {
 
 
     /**
-     * RUNTIME ERROR: Utilized try-catch block for individual error messages.
+     * RUNTIME/LOGICAL ERROR: Utilized try-catch block for individual error messages. Incorporating
      * Save new part to inventory and load MainScreenController.
      * Text fields are checked.
      * Display error messages preventing empty and/or invalid values.

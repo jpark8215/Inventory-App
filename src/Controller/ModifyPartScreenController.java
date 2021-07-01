@@ -158,7 +158,7 @@ public class ModifyPartScreenController implements Initializable {
      @param event Cancel button action.
      */
     @FXML
-    void onActionCancelModifyParts(ActionEvent event) throws IOException{
+    void onActionCancelModifyParts(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("CONFIRMATION");

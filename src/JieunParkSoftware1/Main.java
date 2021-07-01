@@ -32,6 +32,7 @@ public class Main extends Application {
 
     /**
      * Add sample parts and products.
+     * @param args Array of sequence of strings passed to the Main function.
      */
     public static void main(String[] args) {
 

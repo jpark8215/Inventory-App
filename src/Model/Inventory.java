@@ -4,8 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * RUNTIME ERROR: Initially created id method in Inventory.java, but I encountered trouble with creating random ids for each page.
- * RUNTIME ERROR: Located in AddPartScreenController and AddProductScreenController. Removed/ changed a couple of lines for Id in controllers.
+ * RUNTIME/LOGICAL ERROR: Initially created id method in Inventory.java, but I encountered trouble with creating random ids for each page.
+ * RUNTIME/LOGICAL ERROR: Located in AddPartScreenController and AddProductScreenController. Removed/ changed a couple of lines for Id in controllers.
  * Class Inventory.java
  @author Jieun Park
  */

@@ -37,18 +37,18 @@ public class AddProductScreenController implements Initializable {
     int productId;
 
     /**
-     * RUNTIME ERROR: Initially created id method in Inventory.java, but I encountered trouble with creating random ids for each page.
+     * RUNTIME/LOGICAL ERROR: Initially created id method in Inventory.java, but I encountered trouble with creating random ids for each page.
      * Generate a random number for product.
      * Check existing product numbers to confirm for duplicates.
      * @return Random product ID.
      */
     private int assignProductId(){
         int randomProductId;
-        randomProductId = random.nextInt(100);
+        randomProductId = random.nextInt(1000);
 
         for(Product product : Inventory.getAllProducts()){
             if(product.getId() == randomProductId){
-                boolean isMatch = true;
+                boolean isMatch = false;
                 assignProductId();
             }
         }
