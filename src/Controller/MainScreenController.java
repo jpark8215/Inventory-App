@@ -110,7 +110,7 @@ public class MainScreenController implements Initializable{
 
     /**
      * Load AddPartController.
-     @param event Add button action.
+     @param event Part add button action.
      */
     @FXML
     void onActionAddParts(ActionEvent event) throws IOException {
@@ -123,7 +123,7 @@ public class MainScreenController implements Initializable{
 
 
     /** Load AddProductController.
-     @param event Add button action.
+     @param event Product add button action.
      */
     @FXML
     void onActionAddProducts(ActionEvent event) throws IOException {
@@ -136,7 +136,7 @@ public class MainScreenController implements Initializable{
 
 
     /**
-     * Delete the part selected in the part table.
+     * Delete the part selected in the table.
      * Confirmation dialog to remove selected part from associated part table.
      * Display error message when part is not selected.
      @param event Part delete button action.
@@ -166,8 +166,10 @@ public class MainScreenController implements Initializable{
 
 
     /**
-     * Delete the product selected in the part table.
-     * Confirmation dialog to remove selected part from associated product table.
+     * FUTURE ENHANCEMENT: Redirecting the page to Modify product Screen when user gets an alert for the product with associated part.
+     * Delete the product selected in the table.
+     * Display error message when product has associated part.
+     * Confirmation dialog to remove selected product from associated product table.
      * Display error message when product is not selected.
      @param event Product delete button action.
      */
@@ -182,6 +184,14 @@ public class MainScreenController implements Initializable{
             alert.setContentText("Please select a product.");
             Optional<ButtonType> result = alert.showAndWait();
         }
+
+        else if (!selectedProduct.getAllAssociatedPart().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Product has associated part.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+
         else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("CONFIRMATION");
@@ -190,6 +200,7 @@ public class MainScreenController implements Initializable{
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 Inventory.deleteProduct(selectedProduct);
+
             }
         }
     }
@@ -201,9 +212,14 @@ public class MainScreenController implements Initializable{
      */
     @FXML
     void onActionExit(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("CONFIRMATION");
+        alert.setContentText("Do you want to close the application?");
+        Optional<ButtonType> result = alert.showAndWait();
 
-        System.exit(0);
-
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.exit(0);
+        }
     }
 
 
@@ -355,20 +371,21 @@ public class MainScreenController implements Initializable{
     }
 
 
+    /**
+     * Initialize controller and populate part and product table views.
+     @param location Location used to resolve relative paths for the root object, or null for unknown location.
+     @param resources Resources used to localize the root object, or null for un localized root object.
+     */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        /**
-         * Populate part table view.
-         */
+    public void initialize(URL location, ResourceBundle resources) {
+
         partTableView.setItems(Inventory.getAllParts());
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        /**
-         * Populate product table view.
-         */
+
         productTableView.setItems(Inventory.getAllProducts());
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

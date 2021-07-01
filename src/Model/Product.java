@@ -3,8 +3,6 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.IOException;
-
 /**
  * Class Product.java
  @author Jieun Park
@@ -12,7 +10,8 @@ import java.io.IOException;
 
 public class Product {
 
-    private static final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
+    //The observable list was set static, which created complications with products and associated parts.
+    private final ObservableList<Part> associatedPart = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;
@@ -39,7 +38,6 @@ public class Product {
     }
 
 
-    //Getter and setter for product class
     /**
      * Return the ID
      */
@@ -123,9 +121,9 @@ public class Product {
 
     /**
      * Add a part to the associated part list for product.
-     @param partToAdd The part to add
+     @param part The part to add
      */
-    public void  addAssociatedPart(Part partToAdd) { associatedPart.add(partToAdd); }
+    public void  addAssociatedPart(Part part) { associatedPart.add(part); }
 
 
     /**
@@ -149,4 +147,4 @@ public class Product {
      */
     public ObservableList<Part> getAllAssociatedPart() {return associatedPart;}
 
-    }
+}

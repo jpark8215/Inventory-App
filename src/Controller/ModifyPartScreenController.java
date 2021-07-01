@@ -28,12 +28,6 @@ public class ModifyPartScreenController implements Initializable {
     Parent scene;
 
     /**
-     * Part selected in MainScreenController.
-     */
-    private Part selectedPart;
-
-
-    /**
      * Load MainScreenController.
      @param event Passed from parent method.
      */
@@ -47,20 +41,19 @@ public class ModifyPartScreenController implements Initializable {
 
 
     /**
-     * Confirm that min is greater than zero and less than max.
+     * Confirm that minimum is greater than zero and less than maximum.
      @param min Minimum value for the part.
      @param max Maximum value for the part.
-     @return Boolean indicating if min is valid.
+     @return Boolean indicating if minimum is valid.
      */
     private boolean minValid(int min, int max) {
-
         boolean isValid = true;
 
         if (min <= 0 || min >= max) {
             isValid = false;
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setContentText("Minimum must be greater than or equal to zero, or less than Maximum.");
+            alert.setContentText("Minimum cannot be less than 0 or greater than maximum value.");
             alert.showAndWait();
         }
         return isValid;
@@ -68,26 +61,30 @@ public class ModifyPartScreenController implements Initializable {
 
 
     /**
-     * Confirm that inventory is equal to or between min and max.
-     @param min Minimum value for the part.
-     @param max Maximum value for the part.
-     @param stock The inventory for the part.
-     @return Boolean indicating if inventory is valid.
+     * Confirm that inventory is equal to or between minimum and maximum.
+     * @param min Minimum value for the part.
+     * @param max Maximum value for the part.
+     * @param stock Inventory level for the part.
+     * @return Boolean indicating if inventory is valid.
      */
     private boolean inventoryValid(int min, int max, int stock) {
-
         boolean isValid = true;
 
         if (stock < min || stock > max) {
             isValid = false;
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setContentText("Inventory must be between the minimum or maximum value.");
+            alert.setContentText("The inventory must be between minimum and maximum value.");
             alert.showAndWait();
         }
         return isValid;
     }
 
+
+    /**
+     * Part selected in MainScreenController.
+     */
+    private Part selectedPart;
 
     /**
      * Machine ID/company name label for the part.
@@ -201,73 +198,236 @@ public class ModifyPartScreenController implements Initializable {
      * Text fields are checked.
      * Display error messages preventing empty and/or invalid values.
      @param event Save button action.
+     @throws NullPointerException Catch fields with null.
      */
     @FXML
-    void onActionSaveModifyParts(ActionEvent event)  {
-
+    void onActionSaveModifyParts(ActionEvent event) throws NullPointerException{
         try {
+
             int id = selectedPart.getId();
             String name = partNameText.getText();
-            double price = Double.parseDouble(partPriceText.getText());
-            int stock = Integer.parseInt(partInventoryText.getText());
-            int min = Integer.parseInt(partMinText.getText());
-            int max = Integer.parseInt(partMaxText.getText());
-            int machineId;
-            String companyName;
-            boolean partModified = false;
+            double price = 0.0;
+            int stock = 0;
+            int min = 0;
+            int max = 0;
+            int machineId = 0;
+            String companyName = "N/A";
 
-            if (minValid(min, max) && inventoryValid(min, max, stock)) {
+            if (name.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Part Name is empty. Please enter.");
+                alert.showAndWait();
+            }
 
-                if (inhouseRadioButton.isSelected()) {
-                    try {
-                        machineId = Integer.parseInt(machineIdNameText.getText());
-                        InhousePart newInHousePart = new InhousePart(id, name, price, stock, min, max, machineId);
-                        Inventory.addPart(newInHousePart);
-                        partModified = true;
-                    } catch (Exception e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("ERROR");
-                        alert.setContentText("Please enter valid machine ID number.");
-                        Optional<ButtonType> result = alert.showAndWait();
-                    }
+            else if (inhouseRadioButton.isSelected()) {
+                try {
+                    price = Double.parseDouble(partPriceText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Price must be a decimal. ##.##");
+                    alert.showAndWait();
+
                 }
-                else if (outsourcedRadioButton.isSelected()) {
-                    try {
-                        companyName = machineIdNameText.getText();
-                        OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
-                                companyName);
-                        Inventory.addPart(newOutsourcedPart);
-                        partModified = true;
-                    } catch (Exception e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("ERROR");
-                        alert.setContentText("Please enter valid company name.");
-                        Optional<ButtonType> result = alert.showAndWait();
-                    }
+                try {
+                    stock = Integer.parseInt(partInventoryText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Inventory must be an integer.");
+                    alert.showAndWait();
+
+                }
+                try {
+                    min = Integer.parseInt(partMinText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Minimum must be an integer, and greater than 0 and less than maximum.");
+                    alert.showAndWait();
+
+                }
+                try {
+                    max = Integer.parseInt(partMaxText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Maximum must be an integer, and greater than 0 and minimum.");
+                    alert.showAndWait();
+
+                }
+                try {
+                    machineId = Integer.parseInt(machineIdNameText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Input Error");
+                    alert.setContentText("Machine ID must be an integer.");
+                    alert.showAndWait();
+
                 }
 
-                if (partModified) {
-                    Inventory.deletePart(selectedPart);
-                    returnToMainScreen(event);
+                InhousePart newInhousePart = new InhousePart(id, name, price, stock, min, max, machineId);
+
+                if (minValid(min, max) && inventoryValid(min, max, stock)) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("CONFIRMATION");
+                    alert.setContentText("Do you want to save?");
+                    Optional<ButtonType> result = alert.showAndWait();
+
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        Inventory.addPart(newInhousePart);
+                        Inventory.deletePart(selectedPart);
+                        returnToMainScreen(event);
+                    }
                 }
             }
-        }
-        catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("Invalid value or Empty field. Please enter valid data.");
-            Optional<ButtonType> result = alert.showAndWait();
+
+            else if (outsourcedRadioButton.isSelected()) {
+                try {
+                    price = Double.parseDouble(partPriceText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Price must be a decimal. ##.##");
+                    alert.showAndWait();
+
+                }
+                try {
+                    stock = Integer.parseInt(partInventoryText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Inventory must be an integer.");
+                    alert.showAndWait();
+
+                }
+                try {
+                    min = Integer.parseInt(partMinText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Minimum must be an integer, and greater than 0 and less than maximum.");
+                    alert.showAndWait();
+
+                }
+                try {
+                    max = Integer.parseInt(partMaxText.getText());
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Maximum must be an integer, and greater than 0 and minimum.");
+                    alert.showAndWait();
+
+                }
+                try {
+                    companyName = machineIdNameText.getText();
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Input Error");
+                    alert.setContentText("Company name must be a string.");
+                    alert.showAndWait();
+
+                }
+
+                OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max, companyName);
+
+                if (minValid(min, max) && inventoryValid(min, max, stock)) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("CONFIRMATION");
+                    alert.setContentText("Do you want to save?");
+                    Optional<ButtonType> result = alert.showAndWait();
+
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        Inventory.addPart(newOutsourcedPart);
+                        Inventory.deletePart(selectedPart);
+                        returnToMainScreen(event);
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
 
+//
+//        try {
+//            int id = selectedPart.getId();
+// //           int modifiedPartId = Integer.parseInt(partIdText.getText());
+//            String name = partNameText.getText();
+//            double price = Double.parseDouble(partPriceText.getText());
+//            int stock = Integer.parseInt(partInventoryText.getText());
+//            int min = Integer.parseInt(partMinText.getText());
+//            int max = Integer.parseInt(partMaxText.getText());
+//            int machineId;
+//            String companyName;
+//            boolean partModified = false;
+//
+//            if (minValid(min, max) && inventoryValid(min, max, stock)) {
+//
+//                if (inhouseRadioButton.isSelected()) {
+//                    try {
+//                        machineId = Integer.parseInt(machineIdNameText.getText());
+//                        InhousePart newInHousePart = new InhousePart(id, name, price, stock, min, max, machineId);
+//                        Inventory.addPart(newInHousePart);
+//                        partModified = true;
+//                    } catch (Exception e) {
+//                        Alert alert = new Alert(Alert.AlertType.ERROR);
+//                        alert.setTitle("ERROR");
+//                        alert.setContentText("Please enter valid machine ID number.");
+//                        Optional<ButtonType> result = alert.showAndWait();
+//                    }
+//                }
+//                else if (outsourcedRadioButton.isSelected()) {
+//                    try {
+//                        companyName = machineIdNameText.getText();
+//                        OutsourcedPart newOutsourcedPart = new OutsourcedPart(id, name, price, stock, min, max,
+//                                companyName);
+//                        Inventory.addPart(newOutsourcedPart);
+//                        partModified = true;
+//                    } catch (Exception e) {
+//                        Alert alert = new Alert(Alert.AlertType.ERROR);
+//                        alert.setTitle("ERROR");
+//                        alert.setContentText("Please enter valid company name.");
+//                        Optional<ButtonType> result = alert.showAndWait();
+//                    }
+//                }
+//
+//                if (partModified) {
+//                    Inventory.deletePart(selectedPart);
+//                    returnToMainScreen(event);
+//                }
+//            }
+//        }
+//        catch(Exception e) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("ERROR");
+//            alert.setContentText("Invalid value or Empty field. Please enter valid data.\n" +
+//                    "ID: Integer\n" +
+//                    "Name: String\n" +
+//                    "Price: Double\n" +
+//                    "Inventory: Integer\n" +
+//                    "Min/ Max: Integer\n" +
+//                    "Machine ID: Integer\n" +
+//                    "Company Name: String");
+//            Optional<ButtonType> result = alert.showAndWait();
+//        }
+//    }
+
+
     /**
+     * Disable the id text field.
+     * Initialize controller and pre-select the radio button.
      * Initialize controller and populate text fields with selected parts in MainScreenController.
      @param location Location used to resolve relative paths for the root object, or null for unknown location.
      @param resources Resources used to localize the root object, or null for un localized root object.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        partIdText.setEditable(false);
 
         inhouseRadioButton.setSelected(true);
 
